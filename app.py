@@ -454,7 +454,7 @@ if selected_cert_id:
                     st.session_state.exam_start_time = datetime.now().isoformat()
                 
                 # Calculate exam duration from blueprint
-                exam_duration_minutes = selected_cert_pack.get('blueprint', {}).get('duration_minutes', 90)
+                exam_duration_minutes = cert_pack.get('blueprint', {}).get('duration_minutes', 90)
                 
                 # Client-side timer (JavaScript)
                 st.markdown(f"""
@@ -522,7 +522,7 @@ if selected_cert_id:
                     # Exam Info
                     col1, col2, col3 = st.columns(3)
                     with col1:
-                        st.metric("Certification", selected_cert["name"])
+                        st.metric("Certification", cert_pack["name"])
                     with col2:
                         st.metric("Questions", len(questions))
                     with col3:
