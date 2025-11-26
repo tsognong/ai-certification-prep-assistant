@@ -382,6 +382,7 @@ Be supportive, specific, and actionable in your guidance."""
         
         # Calculate analytics
         total_quizzes = len(recent_scores)
+        
         avg_score = sum(s.get("score", 0) for s in recent_scores) / total_quizzes
         
         # Identify weak topics

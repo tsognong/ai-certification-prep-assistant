@@ -24,6 +24,13 @@
 
 ## ✨ Features
 
+### 🏠 **Professional Landing Page**
+- **Modern Design**: Clean, responsive landing page built with Tailwind CSS
+- **Product Overview**: Comprehensive explanation of AI-powered certification preparation
+- **Success Statistics**: Real certification failure rates and cost analysis
+- **Target Audience**: Clear positioning for IT professionals, students, and organizations
+- **Capstone-Ready**: Professional presentation suitable for academic competitions
+
 ### 🎓 **Exam-Realistic Practice**
 - **Mock Exams**: Full-length practice tests mirroring official certification formats
 - **Timed Sessions**: Simulate real exam pressure with countdown timers
@@ -255,6 +262,17 @@
 7. **Access the app**
    Open http://localhost:8501 in your browser
 
+   **🎨 Landing Page**: For the professional landing page, open `index.html` in your browser or serve it with a local web server:
+   ```bash
+   python -m http.server 8000
+   # Then visit http://localhost:8000/index.html
+   ```
+
+   Or use the convenience script:
+   ```bash
+   ./serve_landing.sh
+   ```
+
 ---
 
 ## 🌐 Deployment
@@ -455,7 +473,7 @@ Metrics include:
 
 ## 🔮 Future Vision
 
-CertAgent aims to become the leading AI-powered certification preparation platform by expanding certification coverage, integrating with official exam providers, and adding mobile support. Future enhancements include timed exam simulation mode, image-based questions for architecture diagrams, and collaborative study features to build a global community of learners preparing for professional certifications.
+CertAgent aims to become the leading AI-powered certification preparation platform by expanding certification coverage, integrating with official exam providers, and adding mobile support. Planned enhancements include image-based questions for architecture diagrams, video explanations for complex topics, and collaborative study features to build a global community of learners preparing for professional certifications.
 
 ---
 

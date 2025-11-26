@@ -83,7 +83,6 @@ st.markdown("""
 
 # ==================== Database Connection ====================
 
-@st.cache_resource
 def init_mongodb():
     """Initialize MongoDB connection"""
     mongo_uri = os.getenv("MONGO_URI")
@@ -99,7 +98,6 @@ def init_mongodb():
         st.error(f"❌ MongoDB connection failed: {e}")
         st.stop()
 
-@st.cache_resource
 def init_gemini():
     """Initialize Gemini model"""
     api_key = os.getenv("GEMINI_API_KEY")
@@ -232,34 +230,79 @@ if "code" in query_params and not st.session_state.authenticated:
                 st.query_params.clear()
                 st.rerun()
 
-# If not authenticated, show login page
+# If not authenticated, show landing page
 if not st.session_state.authenticated:
-    st.markdown('<div class="main-header">🎯 CertAgent</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">AI-Assisted Certification Preparation</div>', unsafe_allow_html=True)
-    
-    st.markdown("---")
-    
-    # Welcome message
+    # Hide Streamlit UI elements for full-page landing experience
     st.markdown("""
-    ### Welcome to CertAgent! 👋
+    <style>
+    [data-testid="stHeader"] {
+        display: none;
+    }
+    [data-testid="stSidebar"] {
+        display: none;
+    }
+    [data-testid="stToolbar"] {
+        display: none;
+    }
+    .main {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    button {
+        position: absolute;
+        left: -9999px;
+        visibility: hidden;
+    }
+    @media (min-width: calc(736px + 8rem)) {
+        .st-emotion-cache-zy6yx3 {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+    }
+    .st-emotion-cache-zy6yx3 {
+        width: 100% !important;
+        padding: 0 !important;
+        max-width: initial !important;
+        min-width: auto !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     
-    Your AI-assisted certification preparation platform with:
-    - **Multi-Agent System**: Content Curator, Assessment Engine, and Learning Coach
-    - **Multiple Certifications**: MongoDB, AWS, Azure, GCP, Terraform, and more
-    - **Personalized Learning**: Adaptive questions based on your performance
-    - **Memory System**: Tracks your progress and weak areas
-    - **Real-time Monitoring**: Observable agent interactions
-    
-    Sign in with Google to get started!
-    """)
-    
-    col1, col2, col3 = st.columns([1, 1, 1])
-    
-    with col2:
-        if st.button("🔐 Sign in with Google", type="primary", use_container_width=True):
+    # Load and display the landing page HTML
+    try:
+        with open("index.html", "r", encoding="utf-8") as f:
+            html_content = f.read()
+        
+        # Replace all login links with JavaScript triggers
+        html_content = html_content.replace(
+            'href="/auth/login"',
+            'href="#" onclick="window.location.href = \'?login=true\'; return false;"'
+        )
+        
+        # No need for JavaScript function now
+        
+        # Render the full HTML page
+        import streamlit.components.v1 as components
+        components.html(html_content, height=3500, scrolling=False)
+        
+        # Check if login was triggered
+        if st.query_params.get("login") == "true":
+            st.query_params.clear()  # Clear the param
             auth_url = auth_manager.get_google_login_url()
             st.markdown(f'<meta http-equiv="refresh" content="0; url={auth_url}">', unsafe_allow_html=True)
-            st.markdown(f"[Click here if not redirected]({auth_url})")
+            st.stop()
+            
+    except FileNotFoundError:
+        st.error("Landing page not found. Please ensure index.html exists.")
+        # Fallback to simple login
+        st.markdown("### Welcome to CertAgent! 👋")
+        if st.button("🔐 Sign in with Google", type="primary"):
+            auth_url = auth_manager.get_google_login_url()
+            st.markdown(f'<meta http-equiv="refresh" content="0; url={auth_url}">', unsafe_allow_html=True)
     
     st.stop()
 
@@ -279,7 +322,7 @@ with st.sidebar:
     st.write(f"**{st.session_state.user_name}**")
     st.caption(st.session_state.user_email)
     
-    if st.button("🚪 Sign Out", use_container_width=True):
+    if st.button("🏠 Go to Home", use_container_width=True):
         # Delete session from database
         session_token = st.query_params.get("session")
         if session_token:
