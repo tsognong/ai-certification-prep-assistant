@@ -248,7 +248,7 @@
 
 ## 🌐 Deployment
 
-### Option 1: Azure App Service (Recommended)
+### Option 1: Azure App Service
 
 1. **Prepare deployment**
    ```bash
@@ -309,28 +309,7 @@
      certagent:latest
    ```
 
-### Option 3: Heroku
-
-1. **Create Heroku app**
-   ```bash
-   heroku create your-app-name
-   ```
-
-2. **Set config vars**
-   ```bash
-   heroku config:set GEMINI_API_KEY="your-key"
-   heroku config:set MONGO_URI="your-mongo-uri"
-   heroku config:set GOOGLE_CLIENT_ID="your-client-id"
-   heroku config:set GOOGLE_CLIENT_SECRET="your-secret"
-   heroku config:set GOOGLE_REDIRECT_URI="https://your-app.herokuapp.com"
-   ```
-
-3. **Deploy**
-   ```bash
-   git push heroku develop:main
-   ```
-
-### Option 4: Streamlit Cloud
+### Option 3: Streamlit Cloud
 
 1. Fork this repository
 2. Go to https://share.streamlit.io/
