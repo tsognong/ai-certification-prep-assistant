@@ -40,6 +40,7 @@
 
 ### 🤖 **Multi-Agent AI Intelligence**
 - **Content Curator Agent**: Automatically fetches and organizes official documentation, exam guides, course syllabi, and study materials
+  > **ℹ️ The Curator Agent is actively fetching exam materials and guides for each certification attempt, ensuring you have the most relevant resources before your quiz.**
 - **Assessment Engine Agent**: Generates adaptive exam questions that adjust difficulty in real-time
 - **Learning Coach Agent**: Provides personalized study plans, identifies weak areas, and tracks progress
 

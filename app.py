@@ -519,6 +519,7 @@ if selected_cert_id:
             if not st.session_state.quiz_started:
                 if st.button("🚀 Generate Exam Questions", type="primary", use_container_width=True):
                     try:
+                        st.info("ℹ️ The Curator Agent is actively fetching exam materials and guides for your certification attempt, ensuring you have the most relevant resources before your quiz.")
                         with st.spinner("📚 Content Curator is fetching study materials..."):
                             # Step 1: Use Content Curator Agent to fetch materials
                             materials_result = asyncio.run(orchestrator.process_user_request(
