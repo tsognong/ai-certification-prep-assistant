@@ -2,7 +2,7 @@
 
 **Intelligent multi-agent system for personalized certification exam preparation**
 
-[![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.14+-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.38+-red.svg)](https://streamlit.io/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green.svg)](https://www.mongodb.com/)
 [![Google Gemini](https://img.shields.io/badge/Google-Gemini_API-orange.svg)](https://ai.google.dev/)
@@ -161,7 +161,7 @@
 ## 🛠️ Tech Stack
 
 ### **Backend**
-- **Python 3.12+**: Core language
+- **Python 3.14+**: Core language
 - **Streamlit**: Web framework
 - **Google ADK**: Agent framework
 - **Google Gemini API**: LLM and embeddings
@@ -193,7 +193,7 @@
 
 ### Prerequisites
 
-- Python 3.12 or higher
+- Python 3.14 or higher
 - MongoDB Atlas account
 - Google Cloud project with Gemini API
 - Google OAuth credentials
