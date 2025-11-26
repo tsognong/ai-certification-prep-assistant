@@ -261,16 +261,27 @@ Generate questions in JSON format with:
 Topics: {', '.join(topics)}
 Difficulty: {difficulty}
 
+For technical certifications (MongoDB, AWS, Terraform, GCP, Azure), include code snippets when relevant.
+
 IMPORTANT: Return ONLY a valid JSON array with this exact structure:
 [
   {{
     "question": "question text here",
+    "code": "optional code snippet (use \\n for newlines)",
+    "language": "python|javascript|terraform|yaml|bash",
     "options": ["A) option 1", "B) option 2", "C) option 3", "D) option 4"],
     "correct_answer": "A",
     "explanation": "why this answer is correct",
     "topic": "{topics[0] if topics else 'general'}"
   }}
 ]
+
+Include 'code' and 'language' fields for questions involving:
+- Code analysis
+- Configuration examples
+- Query syntax
+- Infrastructure as Code
+- API calls
 
 Do NOT include any markdown, code blocks, or extra text. Return ONLY the JSON array."""
         

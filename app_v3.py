@@ -449,7 +449,8 @@ if selected_cert_id:
                         
                         # Display code if present
                         if "code" in question:
-                            st.code(question["code"], language="python")
+                            code_language = question.get("language", "python")
+                            st.code(question["code"], language=code_language)
                         
                         # Answer options
                         question_type = question.get("type", "mcq")

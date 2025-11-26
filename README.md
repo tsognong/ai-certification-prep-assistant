@@ -24,7 +24,7 @@
 
 ### 🤖 **Multi-Agent AI System**
 - **Content Curator Agent**: Fetches and organizes study materials
-- **Assessment Engine Agent**: Generates adaptive exam questions
+- **Assessment Engine Agent**: Generates adaptive exam questions with code snippets
 - **Learning Coach Agent**: Provides personalized guidance and analytics
 
 ### 📚 **Multi-Certification Support**
@@ -45,6 +45,7 @@
 ### 🎯 **Adaptive Learning**
 - Questions adjust based on performance
 - Difficulty scales with user progress
+- Code-based questions for technical certifications
 - Weak topic identification
 - Personalized study plans
 
@@ -444,7 +445,9 @@ Metrics include:
 
 ## 🔮 Roadmap
 
-- [ ] Multimodal support (images, audio, code snippets)
+- [x] Code snippets in questions (Python, JavaScript, Terraform, YAML, Bash)
+- [ ] Image support for diagrams and architecture questions
+- [ ] Audio explanations for accessibility
 - [ ] More certification providers
 - [ ] Mobile app
 - [ ] Collaborative study sessions
