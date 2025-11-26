@@ -78,10 +78,10 @@
 ### System Architecture Diagram
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
+├─────────────────────────────────────────────────────────────────────┐
 │                         STREAMLIT FRONTEND                           │
-│  ┌──────────────┐  ┌──────────────┐  ┌─────────────────────────┐  │
-│  │  Login Page  │→ │ Cert Selector│→ │  Quiz Interface         │  │
+│  ├──────────────┐  ├──────────────┐  ├─────────────────────────┐  │
+│  │  Login Page  │→ │ Cert Selector│→ │  Exam Interface         │  │
 │  │  (OAuth)     │  │ & Topics     │  │  - Questions Display    │  │
 │  └──────────────┘  └──────────────┘  │  - Answer Submission    │  │
 │                                       │  - Results & Coaching   │  │
@@ -103,7 +103,7 @@
 │  │  Agent     │      │   Agent      │     │    Agent       │      │
 │  └─────┬──────┘      └──────┬───────┘     └────────┬───────┘      │
 │        │                    │                      │                │
-│        │ • Fetch materials  │ • Generate quiz      │ • Analyze perf│
+│        │ • Fetch materials  │ • Generate exam      │ • Analyze perf│
 │        │ • Summarize docs   │ • Adaptive diff.     │ • Study plan  │
 │        │ • Semantic search  │ • Validate qs        │ • Coaching    │
 │        │                    │                      │                │
@@ -123,8 +123,8 @@
          ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │                      MONGODB ATLAS DATABASE                          │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────────┐  │
-│  │ certifications│  │    users     │  │      quizzes            │  │
+│  ├──────────────┐  ├──────────────┐  ├──────────────────────┐  │
+│  │ certifications│  │    users     │  │      exams              │  │
 │  │ - packs       │  │ - profiles   │  │  - questions            │  │
 │  │ - topics      │  │ - OAuth data │  │  - user_answers         │  │
 │  │ - blueprints  │  │ - sessions   │  │  - scores               │  │
@@ -147,12 +147,12 @@
 2. CERT SELECTION
    User → Streamlit → MongoDB (certifications) → Display options
 
-3. QUIZ GENERATION
+3. EXAM GENERATION
    User Request → Orchestrator → Assessment Engine Agent
                                      ↓
                                  Gemini API (generate questions)
                                      ↓
-                                 MongoDB (store quiz)
+                                 MongoDB (store exam)
                                      ↓
                                  Streamlit (display)
 
@@ -287,8 +287,8 @@
 4. **Set environment variables in Azure**
    ```bash
    az webapp config appsettings set \
-     --resource-group quiz-ai-rg \
-     --name your-app-name \
+     --resource-group cert-prep-rg \
+     --name your-app-name \\
      --settings \
        GEMINI_API_KEY="your-key" \
        MONGO_URI="your-mongo-uri" \
