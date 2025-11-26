@@ -1,0 +1,239 @@
+# ============================================
+# FICHIER DE CONFIGURATION DES VALEURS
+# Copiez ce fichier vers terraform.tfvars
+# ============================================
+
+# ⚠️ IMPORTANT : Ne JAMAIS commiter terraform.tfvars sur Git !
+# Ce fichier contient des secrets (MongoDB URI, API keys, etc.)
+# Il est dans .gitignore par sécurité
+
+# 📚 CONCEPT : terraform.tfvars
+# Fichier qui fournit les valeurs pour les variables
+# Terraform le charge automatiquement
+
+# ============================================
+# CONFIGURATION GÉNÉRALE
+# ============================================
+
+# Environnement : dev, staging, ou production
+environment = "production"
+
+# Nom du projet (utilisé pour nommer les ressources)
+project_name = "quiz-ai-agent"
+
+# Région Azure (proche de vous pour minimiser la latence)
+# Options en Europe :
+# - francecentral (Paris, France)
+# - westeurope (Amsterdam, Pays-Bas)
+# - northeurope (Dublin, Irlande)
+location = "francecentral"
+
+# ============================================
+# NOMS DES RESSOURCES
+# ============================================
+
+# Nom du groupe de ressources
+resource_group_name = "quiz-app-rg"
+
+# Nom du plan App Service
+app_service_plan_name = "quiz-app-plan"
+
+# Nom de l'application web (DOIT être UNIQUE globalement)
+# ⚠️ Changez ceci pour éviter les conflits !
+# Ce nom devient votre URL : https://<nom>.azurewebsites.net
+web_app_name = "quiz-ai-agent-helper-CHANGE-ME"
+
+# ============================================
+# CONFIGURATION APP SERVICE
+# ============================================
+
+# Niveau tarifaire (SKU)
+# - F1  : Gratuit (limité, pour tests)
+# - B1  : ~13€/mois (bon pour dev/petits projets)
+# - B2  : ~26€/mois (plus de ressources)
+# - S1  : ~70€/mois (production, avec slots de déploiement)
+# - P1V2: ~85€/mois (premium, meilleures performances)
+sku_name = "B1"
+
+# Version Python
+# Options : "3.8", "3.9", "3.10", "3.11"
+python_version = "3.10"
+
+# Commande de démarrage
+startup_command = "startup.sh"
+
+# Toujours actif (évite les démarrages froids)
+# true = recommandé pour production
+# false = OK pour dev (économise des ressources)
+# ⚠️ Pas disponible sur le tier gratuit F1
+always_on = true
+
+# Version de l'application (pour tracking)
+app_version = "1.0.0"
+
+# ============================================
+# SECRETS (REQUIS)
+# ============================================
+
+# 🔐 URI de connexion MongoDB Atlas
+# 📚 Comment l'obtenir :
+#     1. Allez sur https://cloud.mongodb.com
+#     2. Clusters → Connect → Connect your application
+#     3. Copiez la connection string
+#     4. Remplacez <password> par votre mot de passe réel
+#     5. Remplacez <database> par votre nom de base de données
+#
+# Format : mongodb+srv://<user>:<password>@cluster.mongodb.net/<database>?retryWrites=true&w=majority
+mongo_uri = "mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=majority"
+
+# 🔐 Clé API Google Gemini
+# 📚 Comment l'obtenir :
+#     1. Allez sur https://makersuite.google.com/app/apikey
+#     2. Créez un projet Google Cloud (si nécessaire)
+#     3. Créez une clé API
+#     4. Copiez et collez ici
+gemini_api_key = "votre-cle-api-gemini-ici"
+
+# ============================================
+# CONFIGURATION OPTIONNELLE
+# ============================================
+
+# Tags supplémentaires pour toutes les ressources
+# tags = {
+#   CostCenter = "IT"
+#   Owner      = "TeamA"
+#   Contact    = "admin@example.com"
+# }
+
+# Domaine personnalisé (optionnel)
+# custom_domain = "quiz.example.com"
+
+# Liste d'IPs autorisées (optionnel, pour restreindre l'accès)
+# allowed_ip_addresses = ["203.0.113.5", "198.51.100.20"]
+
+# Variables d'environnement supplémentaires
+# app_settings_extra = {
+#   "DEBUG"      = "false"
+#   "LOG_LEVEL"  = "info"
+#   "CUSTOM_VAR" = "valeur"
+# }
+
+# Configuration de sauvegarde (optionnel)
+# backup_config = {
+#   enabled   = true
+#   frequency = "daily"
+#   retention = 30
+# }
+
+# ============================================
+# EXEMPLES PAR ENVIRONNEMENT
+# ============================================
+
+# 📚 Pour DEV :
+# environment = "dev"
+# sku_name = "B1"
+# always_on = false
+# web_app_name = "quiz-ai-agent-dev"
+
+# 📚 Pour STAGING :
+# environment = "staging"
+# sku_name = "B2"
+# always_on = true
+# web_app_name = "quiz-ai-agent-staging"
+
+# 📚 Pour PRODUCTION :
+# environment = "production"
+# sku_name = "S1"
+# always_on = true
+# web_app_name = "quiz-ai-agent-prod"
+
+# ============================================
+# NOTES IMPORTANTES
+# ============================================
+
+# 📌 FICHIERS TERRAFORM VARS
+
+# 1. terraform.tfvars (ce fichier)
+#    - Chargé automatiquement
+#    - ❌ NE PAS commiter sur Git (contient secrets)
+#    - Utilisé pour l'environnement par défaut
+
+# 2. *.auto.tfvars
+#    - Chargés automatiquement (ordre alphabétique)
+#    - Exemple : dev.auto.tfvars, prod.auto.tfvars
+
+# 3. -var-file en ligne de commande
+#    terraform apply -var-file="dev.tfvars"
+
+# 4. Variables d'environnement
+#    export TF_VAR_environment="dev"
+#    export TF_VAR_mongo_uri="mongodb+srv://..."
+
+# 📌 ORDRE DE PRIORITÉ
+
+# Si une variable est définie plusieurs fois, Terraform utilise
+# cette priorité (du plus au moins important) :
+#
+# 1. -var ou -var-file (ligne de commande)
+# 2. *.auto.tfvars (alphabétique)
+# 3. terraform.tfvars
+# 4. TF_VAR_* (variables d'environnement)
+# 5. Valeur par défaut dans variables.tf
+
+# 📌 SÉCURITÉ
+
+# ✅ BON :
+# - Utiliser .gitignore pour terraform.tfvars
+# - Marquer les secrets comme sensitive = true
+# - Utiliser des variables d'environnement en CI/CD
+# - Backend distant avec chiffrement pour le state
+# - Azure Key Vault pour les vrais secrets
+
+# ❌ MAUVAIS :
+# - Commiter terraform.tfvars avec secrets
+# - Mettre des secrets directement dans main.tf
+# - Partager le state file (contient secrets)
+# - Laisser des secrets en clair dans les logs
+
+# 📌 VÉRIFICATION AVANT APPLY
+
+# 1. Vérifiez que web_app_name est unique :
+#    az webapp list --query "[?name=='votre-nom'].name"
+#    # Si vide, c'est disponible !
+
+# 2. Vérifiez la connexion MongoDB :
+#    # Testez avec mongosh ou MongoDB Compass
+
+# 3. Vérifiez la clé API Gemini :
+#    # Testez avec une requête API simple
+
+# 4. Validez la syntaxe Terraform :
+#    terraform validate
+
+# 5. Prévisualisez les changements :
+#    terraform plan
+
+# ============================================
+# PRÊT À UTILISER !
+# ============================================
+
+# 📋 ÉTAPES POUR DÉMARRER :
+
+# 1. Copiez ce fichier :
+#    cp terraform.tfvars.example terraform.tfvars
+
+# 2. Éditez terraform.tfvars :
+#    nano terraform.tfvars
+#    # Changez web_app_name, mongo_uri, gemini_api_key
+
+# 3. Initialisez Terraform :
+#    terraform init
+
+# 4. Prévisualisez :
+#    terraform plan
+
+# 5. Créez l'infrastructure :
+#    terraform apply
+
+# 6. Pour tout supprimer :
+#    terraform destroy

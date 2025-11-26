@@ -1,0 +1,17 @@
+streamlit
+pymongo
+google-adk
+google-generativeai
+python-dotenv
+requests
+beautifulsoup4
+lxml
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+plotly
+pandas
+numpy
+aiohttp
+structlog
+textstat
