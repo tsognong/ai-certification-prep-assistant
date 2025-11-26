@@ -102,9 +102,10 @@
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        GOOGLE GEMINI API                             │
 │  ┌──────────────────────────────────────────────────────────────┐  │
-│  │  Model: gemini-2.5-flash-lite                                 │  │
+│  │  Configurable Models:                                         │  │
+│  │  • Generation: gemini-2.5-flash-lite, gemini-pro, etc.       │  │
+│  │  • Embeddings: text-embedding-004, text-embedding-005        │  │
 │  │  • Content generation   • Question creation                   │  │
-│  │  • Embeddings (text-embedding-004)                            │  │
 │  └──────────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────────┘
          │
@@ -172,8 +173,8 @@
 - **Vector Embeddings**: Semantic search
 
 ### **AI/ML**
-- **Google Gemini 2.5 Flash Lite**: Question generation
-- **Text Embedding 004**: Semantic search
+- **Google Gemini API**: Configurable models (gemini-pro, gemini-flash, etc.)
+- **Text Embeddings**: text-embedding-004/005 for semantic search
 - **Structured Logging**: Observability
 
 ### **Authentication**
