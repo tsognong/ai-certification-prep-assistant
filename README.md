@@ -453,31 +453,9 @@ Metrics include:
 
 ---
 
-## 🔮 Roadmap
+## 🔮 Future Vision
 
-### Current Release
-- [x] Adaptive mock exams aligned with official blueprints
-- [x] Code-based questions (Python, JavaScript, Terraform, YAML, Bash)
-- [x] Multi-agent AI system with personalized coaching
-- [x] Performance analytics and progress tracking
-
-### Q1 2026
-- [ ] Full exam simulation mode (timed, scored, certification-ready)
-- [ ] Diagram-based questions with image support
-- [ ] Video explanations for complex topics
-- [ ] Exam readiness predictor (AI-powered pass probability)
-
-### Q2 2026
-- [ ] Mobile app (iOS/Android)
-- [ ] Collaborative study groups with peer review
-- [ ] Integration with Pearson VUE for real exam scheduling
-- [ ] Official certification provider partnerships
-
-### Future
-- [ ] AI tutor with voice interface
-- [ ] Virtual labs for hands-on practice
-- [ ] Corporate training dashboard for teams
-- [ ] Certification journey gamification
+CertAgent aims to become the leading AI-powered certification preparation platform by expanding certification coverage, integrating with official exam providers, and adding mobile support. Future enhancements include timed exam simulation mode, image-based questions for architecture diagrams, and collaborative study features to build a global community of learners preparing for professional certifications.
 
 ---
 
