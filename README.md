@@ -239,7 +239,7 @@
 
 6. **Run the application**
    ```bash
-   streamlit run app_v3.py
+   streamlit run app.py
    ```
 
 7. **Access the app**
@@ -385,7 +385,7 @@ python initialize_system.py
 │   ├── ai/                   # AI course data
 │   └── mongo/                # MongoDB docs
 ├── terraform/                 # Infrastructure as Code
-├── app_v3.py                 # Main application
+├── app.py                    # Main application
 ├── initialize_system.py      # Setup script
 ├── requirements.txt          # Dependencies
 ├── deploy.sh                 # Deployment script
