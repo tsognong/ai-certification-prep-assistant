@@ -387,6 +387,21 @@ if selected_cert_id:
                     help="Adaptive: System will adjust based on your performance"
                 )
             
+            # Exam Instructions
+            st.info("""
+            **📋 Exam Instructions**
+            
+            - **Question Format**: Multiple choice questions with one or more correct answers
+            - **Code Snippets**: Some questions include code examples - analyze carefully
+            - **Time**: No time limit for practice mode (timed mode coming soon)
+            - **Scoring**: Each question is worth equal points
+            - **Navigation**: Answer all questions before submitting
+            - **Review**: Detailed explanations provided after submission
+            - **Performance**: Your results will be saved and used to personalize future exams
+            
+            ✅ **Ready to begin? Click the button below to generate your personalized exam.**
+            """)
+            
             # Generate Exam Questions Button
             if not st.session_state.quiz_started:
                 if st.button("🚀 Generate Exam Questions", type="primary", use_container_width=True):
@@ -430,17 +445,36 @@ if selected_cert_id:
                             st.error(f"❌ Error: {str(e)}")
                             logger.error("quiz_generation_failed", error=str(e))
             
-            # Display Quiz
+            # Display Exam
             if st.session_state.quiz_started and st.session_state.current_quiz:
                 st.divider()
-                st.header("4️⃣ Take Quiz")
+                st.header("4️⃣ Take Your Exam")
                 
                 questions = st.session_state.current_quiz.get("questions", [])
                 
                 if not questions:
                     st.warning("No questions were generated. Please try again.")
                 else:
-                    # Quiz form
+                    # Exam Header
+                    st.markdown(f"""
+                    **Certification**: {selected_cert["name"]}  
+                    **Topics**: {", ".join(selected_topics)}  
+                    **Questions**: {len(questions)}  
+                    **Difficulty**: {difficulty.title()}
+                    """)
+                    
+                    st.warning("""
+                    **⚠️ Before You Begin:**
+                    - Read each question carefully
+                    - For code questions, analyze the syntax and logic
+                    - Some questions may have multiple correct answers
+                    - Select ALL correct options when applicable
+                    - You can review and change answers before submitting
+                    """)
+                    
+                    st.divider()
+                    
+                    # Exam form
                     for idx, question in enumerate(questions):
                         st.markdown(f'<div class="question-card">', unsafe_allow_html=True)
                         
