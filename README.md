@@ -1,8 +1,8 @@
-# 🎯 CertAgent - AI-Powered Certification Exam Preparation
+# 🎯 CertAgent - AI-Powered Exam Preparation Platform
 
-**AI-driven multi-agent platform generating adaptive mock exams for professional certifications. Delivers personalized coaching with real-time performance analytics and extensible certification catalog.**
+**Universal AI-driven multi-agent platform for adaptive exam preparation. Covers professional certifications (AWS, Azure, MongoDB), language proficiency tests (TCF, IELTS, TOEFL, DELF), driver's license exams, and more. Delivers personalized coaching with real-time performance analytics.**
 
-> **Solving the Certification Gap**: Traditional study materials are static and impersonal. CertAgent uses AI agents to deliver adaptive practice exams that mirror real certification tests, identify knowledge gaps in real-time, and provide personalized coaching—democratizing access to quality certification preparation that was previously only available through expensive boot camps.
+> **Democratizing Quality Exam Preparation**: Traditional study materials are static, expensive, and impersonal. CertAgent uses specialized AI agents to deliver adaptive practice exams that mirror real test formats across diverse domains—from cloud architecture certifications to language proficiency and driving theory—making world-class preparation accessible to everyone.
 
 [![Python](https://img.shields.io/badge/Python-3.14+-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.38+-red.svg)](https://streamlit.io/)
@@ -26,9 +26,9 @@
 
 ### 🏠 **Professional Landing Page**
 - **Modern Design**: Clean, responsive landing page built with Tailwind CSS
-- **Product Overview**: Comprehensive explanation of AI-powered certification preparation
-- **Success Statistics**: Real certification failure rates and cost analysis
-- **Target Audience**: Clear positioning for IT professionals, students, and organizations
+- **Product Overview**: Comprehensive explanation of AI-powered exam preparation across multiple domains
+- **Success Statistics**: Real exam failure rates and financial impact of retakes
+- **Target Audience**: IT professionals, language learners, students preparing for driver's licenses, career changers, and organizations
 - **Capstone-Ready**: Professional presentation suitable for academic competitions
 
 ### 🎓 **Exam-Realistic Practice**
@@ -43,11 +43,11 @@
 - **Assessment Engine Agent**: Generates adaptive exam questions that adjust difficulty in real-time
 - **Learning Coach Agent**: Provides personalized study plans, identifies weak areas, and tracks progress
 
-### 📚 **Multi-Certification Coverage**
-- **MongoDB Developer Associate**: Database design, queries, indexing, aggregation
-- **AWS Solutions Architect**: Cloud architecture, services, security, cost optimization
-- **Azure Fundamentals (AZ-900)**: Cloud concepts, Azure services, security, pricing
-- **Google Cloud Associate**: GCP services, networking, storage, IAM
+### 📚 **Universal Exam Coverage**
+- **Professional IT Certifications**: AWS Solutions Architect, Azure Fundamentals, MongoDB Developer, Google Cloud Associate, Terraform Associate
+- **Language Proficiency Tests**: TCF (Test de Connaissance du Français), IELTS, TOEFL, DELF/DALF, and other standardized language assessments
+- **Driver's License Exams**: Theory tests for various jurisdictions with traffic rules, road signs, and safe driving practices
+- **Extensible Framework**: Easily add new exam types through the modular certification pack system
 - **Terraform Associate**: Infrastructure as Code, state management, modules
 - **Extensible Platform**: Add new certifications in minutes
 

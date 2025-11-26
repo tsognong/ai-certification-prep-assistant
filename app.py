@@ -174,6 +174,11 @@ def check_existing_session():
             st.session_state.user_name = session_doc["user_name"]
             st.session_state.authenticated = True
             logger.info("session_restored", user_id=session_doc["user_id"])
+            
+            # Keep session in URL for persistence
+            if "page" not in st.query_params:
+                st.query_params["page"] = "app"
+            
             return True
     
     return False
@@ -215,9 +220,19 @@ if "code" in query_params and not st.session_state.authenticated:
                 "expires_at": datetime.now() + timedelta(days=7)
             })
             
-            # Add session token to URL for persistence
+            # Add session token and redirect to app page
             st.query_params.clear()
             st.query_params["session"] = session_token
+            st.query_params["page"] = "app"
+            
+            # Store session in browser localStorage via JavaScript
+            st.markdown(f"""
+            <script>
+                localStorage.setItem('cert_agent_session', '{session_token}');
+                localStorage.setItem('cert_agent_session_expires', '{(datetime.now() + timedelta(days=7)).isoformat()}');
+            </script>
+            """, unsafe_allow_html=True)
+            
             st.success("✅ Successfully signed in!")
             st.rerun()
             
@@ -230,7 +245,20 @@ if "code" in query_params and not st.session_state.authenticated:
                 st.query_params.clear()
                 st.rerun()
 
-# If not authenticated, show landing page
+# Check for page parameter (routing)
+page = st.query_params.get("page", "home")
+
+# If not authenticated and trying to access app, redirect to home
+if not st.session_state.authenticated and page == "app":
+    st.query_params["page"] = "home"
+    st.rerun()
+
+# If authenticated and on home page, redirect to app
+if st.session_state.authenticated and page == "home":
+    st.query_params["page"] = "app"
+    st.rerun()
+
+# Show landing page for unauthenticated users
 if not st.session_state.authenticated:
     # Hide Streamlit UI elements for full-page landing experience
     st.markdown("""
@@ -252,11 +280,6 @@ if not st.session_state.authenticated:
         margin: 0 !important;
         padding: 0 !important;
     }
-    button {
-        position: absolute;
-        left: -9999px;
-        visibility: hidden;
-    }
     @media (min-width: calc(736px + 8rem)) {
         .st-emotion-cache-zy6yx3 {
             padding-left: 0 !important;
@@ -269,7 +292,39 @@ if not st.session_state.authenticated:
         max-width: initial !important;
         min-width: auto !important;
     }
+    /* Hide the Streamlit login button */
+    button[kind="primary"] {
+        display: none !important;
+    }
     </style>
+    """, unsafe_allow_html=True)
+    
+    # Add hidden login trigger button (invisible but clickable by JavaScript)
+    if st.button("🔐 Continue to App", type="primary", key="hidden_trigger", help="Click to sign in"):
+        auth_url = auth_manager.get_google_login_url()
+        st.markdown(f'<meta http-equiv="refresh" content="0; url={auth_url}">', unsafe_allow_html=True)
+        st.stop()
+    
+    # Check localStorage for existing session
+    st.markdown("""
+    <script>
+        const sessionToken = localStorage.getItem('cert_agent_session');
+        const expiresAt = localStorage.getItem('cert_agent_session_expires');
+        
+        if (sessionToken && expiresAt) {
+            const now = new Date();
+            const expires = new Date(expiresAt);
+            
+            // If session is still valid, redirect to app with session token
+            if (now < expires) {
+                window.location.href = '?session=' + sessionToken + '&page=app';
+            } else {
+                // Clear expired session
+                localStorage.removeItem('cert_agent_session');
+                localStorage.removeItem('cert_agent_session_expires');
+            }
+        }
+    </script>
     """, unsafe_allow_html=True)
     
     # Load and display the landing page HTML
@@ -277,24 +332,30 @@ if not st.session_state.authenticated:
         with open("index.html", "r", encoding="utf-8") as f:
             html_content = f.read()
         
-        # Replace all login links with JavaScript triggers
-        html_content = html_content.replace(
-            'href="/auth/login"',
-            'href="#" onclick="window.location.href = \'?login=true\'; return false;"'
-        )
+        # Inject JavaScript to trigger Streamlit button
+        login_script = """
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginLinks = document.querySelectorAll('a[href="/auth/login"]');
+            loginLinks.forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Find and click the Streamlit button in parent
+                    const buttons = window.parent.document.querySelectorAll('button[kind="primary"]');
+                    if (buttons.length > 0) {
+                        buttons[0].click();
+                    }
+                });
+            });
+        });
+        </script>
+        """
         
-        # No need for JavaScript function now
+        html_content = html_content.replace('</body>', login_script + '</body>')
         
         # Render the full HTML page
         import streamlit.components.v1 as components
         components.html(html_content, height=3500, scrolling=False)
-        
-        # Check if login was triggered
-        if st.query_params.get("login") == "true":
-            st.query_params.clear()  # Clear the param
-            auth_url = auth_manager.get_google_login_url()
-            st.markdown(f'<meta http-equiv="refresh" content="0; url={auth_url}">', unsafe_allow_html=True)
-            st.stop()
             
     except FileNotFoundError:
         st.error("Landing page not found. Please ensure index.html exists.")
@@ -322,15 +383,24 @@ with st.sidebar:
     st.write(f"**{st.session_state.user_name}**")
     st.caption(st.session_state.user_email)
     
-    if st.button("🏠 Go to Home", use_container_width=True):
+    if st.button("🚪 Sign Out", use_container_width=True):
         # Delete session from database
         session_token = st.query_params.get("session")
         if session_token:
             sessions_coll = mongo_client["campus-plateform"]["sessions"]
             sessions_coll.delete_one({"_id": session_token})
         
-        # Clear query params and session state
+        # Clear localStorage
+        st.markdown("""
+        <script>
+            localStorage.removeItem('cert_agent_session');
+            localStorage.removeItem('cert_agent_session_expires');
+        </script>
+        """, unsafe_allow_html=True)
+        
+        # Clear query params and session state, redirect to home
         st.query_params.clear()
+        st.query_params["page"] = "home"
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
@@ -448,9 +518,32 @@ if selected_cert_id:
             # Generate Exam Questions Button
             if not st.session_state.quiz_started:
                 if st.button("🚀 Generate Exam Questions", type="primary", use_container_width=True):
-                    with st.spinner("🤖 Agents are preparing your personalized quiz..."):
-                        try:
-                            # Use Assessment Engine Agent
+                    try:
+                        with st.spinner("📚 Content Curator is fetching study materials..."):
+                            # Step 1: Use Content Curator Agent to fetch materials
+                            materials_result = asyncio.run(orchestrator.process_user_request(
+                                user_id=st.session_state.user_id,
+                                cert_id=selected_cert_id,
+                                request_type="fetch_materials",
+                                params={
+                                    "topics": selected_topics
+                                }
+                            ))
+                            
+                            # Store curated materials in memory for context
+                            if materials_result["success"]:
+                                memory_system.store_episode(
+                                    user_id=st.session_state.user_id,
+                                    event_type="materials_fetched",
+                                    data={
+                                        "cert_id": selected_cert_id,
+                                        "topics": selected_topics,
+                                        "materials_count": materials_result["data"].get("materials_count", 0)
+                                    }
+                                )
+                        
+                        with st.spinner("🎯 Assessment Engine is generating personalized questions..."):
+                            # Step 2: Use Assessment Engine Agent to generate questions
                             result = asyncio.run(orchestrator.process_user_request(
                                 user_id=st.session_state.user_id,
                                 cert_id=selected_cert_id,
@@ -483,10 +576,10 @@ if selected_cert_id:
                                 st.rerun()
                             else:
                                 st.error(f"❌ Failed to generate quiz: {result.get('error', 'Unknown error')}")
-                        
-                        except Exception as e:
-                            st.error(f"❌ Error: {str(e)}")
-                            logger.error("quiz_generation_failed", error=str(e))
+                    
+                    except Exception as e:
+                        st.error(f"❌ Error: {str(e)}")
+                        logger.error("quiz_generation_failed", error=str(e))
             
             # Display Exam
             if st.session_state.quiz_started and st.session_state.current_quiz:

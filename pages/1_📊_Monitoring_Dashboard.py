@@ -138,12 +138,15 @@ col1, col2 = st.columns(2)
 with col1:
     df_agents = pd.DataFrame(agent_data).T
     df_agents.index.name = "Agent"
-    st.dataframe(df_agents.style.format({
-        "requests": "{:.0f}",
-        "success_rate": "{:.1f}%",
-        "avg_response_time": "{:.3f}s",
-        "error_rate": "{:.1f}%"
-    }), use_container_width=True)
+    
+    # Format the dataframe without using .style (which requires jinja2)
+    df_display = df_agents.copy()
+    df_display["requests"] = df_display["requests"].apply(lambda x: f"{x:.0f}")
+    df_display["success_rate"] = df_display["success_rate"].apply(lambda x: f"{x:.1f}%")
+    df_display["avg_response_time"] = df_display["avg_response_time"].apply(lambda x: f"{x:.3f}s")
+    df_display["error_rate"] = df_display["error_rate"].apply(lambda x: f"{x:.1f}%")
+    
+    st.dataframe(df_display, use_container_width=True)
 
 with col2:
     # Radar chart
