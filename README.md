@@ -1,6 +1,6 @@
 # 🎯 CertAgent - AI-Powered Certification Exam Preparation
 
-**AI-driven multi-agent platform that generates adaptive mock exams aligned to official certification blueprints. Delivers dynamic questions with code snippets, real-time performance analysis, and personalized coaching. Extensible catalog supports MongoDB, AWS, Azure, GCP, and Terraform certifications with instant scoring and progress analytics stored in MongoDB.**
+**AI-driven platform generating adaptive mock exams for technical certifications (MongoDB, AWS, Azure, GCP, Terraform). Multi-agent system delivers personalized coaching with real-time analytics.**
 
 > **Solving the Certification Gap**: Traditional study materials are static and impersonal. CertAgent uses AI agents to deliver adaptive practice exams that mirror real certification tests, identify knowledge gaps in real-time, and provide personalized coaching—democratizing access to quality certification preparation that was previously only available through expensive boot camps.
 
