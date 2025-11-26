@@ -319,7 +319,7 @@ log_df = pd.DataFrame([
 ])
 
 if not log_df.empty:
-    # Add color coding for status
+    # Add color coding for status (manual formatting, no .style)
     def color_status(val):
         if val == "success":
             return "background-color: #d4edda"
@@ -327,9 +327,22 @@ if not log_df.empty:
             return "background-color: #f8d7da"
         else:
             return ""
-    
-    styled_df = log_df.style.applymap(color_status, subset=["Status"])
-    st.dataframe(styled_df, use_container_width=True, height=400)
+
+    # Manually build styled HTML table for Streamlit
+    def render_styled_table(df):
+        html = '<table style="width:100%;border-collapse:collapse;">'
+        html += '<tr>' + ''.join(f'<th style="border:1px solid #ccc;padding:6px;">{col}</th>' for col in df.columns) + '</tr>'
+        for _, row in df.iterrows():
+            html += '<tr>'
+            for col in df.columns:
+                style = color_status(row[col]) if col == "Status" else ""
+                html += f'<td style="border:1px solid #ccc;padding:6px;{style}">{row[col]}</td>'
+            html += '</tr>'
+        html += '</table>'
+        return html
+
+    st.markdown(render_styled_table(log_df), unsafe_allow_html=True)
+    st.caption("Status: green = success, red = error")
 else:
     st.info("No agent activity logs available")
 
