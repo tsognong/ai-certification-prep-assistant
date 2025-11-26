@@ -393,7 +393,7 @@ if selected_cert_id:
             
             - **Question Format**: Multiple choice questions with one or more correct answers
             - **Code Snippets**: Some questions include code examples - analyze carefully
-            - **Time**: No time limit for practice mode (timed mode coming soon)
+            - **Timer**: Countdown timer based on official exam duration (practice mode allows submission after time)
             - **Scoring**: Each question is worth equal points
             - **Navigation**: Answer all questions before submitting
             - **Review**: Detailed explanations provided after submission
@@ -448,20 +448,87 @@ if selected_cert_id:
             # Display Exam
             if st.session_state.quiz_started and st.session_state.current_quiz:
                 st.divider()
-                st.header("4️⃣ Take Your Exam")
+                
+                # Initialize exam start time
+                if 'exam_start_time' not in st.session_state:
+                    st.session_state.exam_start_time = datetime.now().isoformat()
+                
+                # Calculate exam duration from blueprint
+                exam_duration_minutes = selected_cert_pack.get('blueprint', {}).get('duration_minutes', 90)
+                
+                # Client-side timer (JavaScript)
+                st.markdown(f"""
+                <div style="position: sticky; top: 0; z-index: 999; background: white; padding: 10px; border-bottom: 2px solid #e0e0e0; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2>4️⃣ Take Your Exam</h2>
+                        <div id="timer" style="font-size: 24px; font-weight: bold; color: #667eea; padding: 10px 20px; background: #f0f2f6; border-radius: 8px;">
+                            <span id="timer-display">⏱️ {exam_duration_minutes}:00</span>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    // Timer implementation (client-side, no Streamlit rerenders)
+                    const examStartTime = new Date("{st.session_state.exam_start_time}");
+                    const durationMinutes = {exam_duration_minutes};
+                    const durationMs = durationMinutes * 60 * 1000;
+                    
+                    function updateTimer() {{
+                        const now = new Date();
+                        const elapsed = now - examStartTime;
+                        const remaining = Math.max(0, durationMs - elapsed);
+                        
+                        const minutes = Math.floor(remaining / 60000);
+                        const seconds = Math.floor((remaining % 60000) / 1000);
+                        
+                        const display = document.getElementById('timer-display');
+                        if (display) {{
+                            const timeStr = minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+                            
+                            // Color coding
+                            if (remaining === 0) {{
+                                display.innerHTML = '⏰ TIME UP!';
+                                display.style.color = '#ff0000';
+                                display.style.animation = 'blink 1s infinite';
+                                clearInterval(timerInterval);
+                            }} else if (remaining < 5 * 60 * 1000) {{
+                                display.innerHTML = '⏱️ ' + timeStr;
+                                display.style.color = '#ff6b6b';
+                            }} else if (remaining < 15 * 60 * 1000) {{
+                                display.innerHTML = '⏱️ ' + timeStr;
+                                display.style.color = '#ffa500';
+                            }} else {{
+                                display.innerHTML = '⏱️ ' + timeStr;
+                                display.style.color = '#667eea';
+                            }}
+                        }}
+                    }}
+                    
+                    // Update timer every second
+                    updateTimer();
+                    const timerInterval = setInterval(updateTimer, 1000);
+                    
+                    // Blink animation for time up
+                    const style = document.createElement('style');
+                    style.textContent = '@keyframes blink {{ 0%, 50% {{ opacity: 1; }} 25%, 75% {{ opacity: 0.3; }} }}';
+                    document.head.appendChild(style);
+                </script>
+                """, unsafe_allow_html=True)
                 
                 questions = st.session_state.current_quiz.get("questions", [])
                 
                 if not questions:
                     st.warning("No questions were generated. Please try again.")
                 else:
-                    # Exam Header
-                    st.markdown(f"""
-                    **Certification**: {selected_cert["name"]}  
-                    **Topics**: {", ".join(selected_topics)}  
-                    **Questions**: {len(questions)}  
-                    **Difficulty**: {difficulty.title()}
-                    """)
+                    # Exam Info
+                    col1, col2, col3 = st.columns(3)
+                    with col1:
+                        st.metric("Certification", selected_cert["name"])
+                    with col2:
+                        st.metric("Questions", len(questions))
+                    with col3:
+                        st.metric("Difficulty", difficulty.title())
+                    
+                    st.info(f"**Topics**: {', '.join(selected_topics)}")
                     
                     st.warning("""
                     **⚠️ Before You Begin:**
@@ -470,6 +537,7 @@ if selected_cert_id:
                     - Some questions may have multiple correct answers
                     - Select ALL correct options when applicable
                     - You can review and change answers before submitting
+                    - Timer is for practice - submission allowed after time expires
                     """)
                     
                     st.divider()
@@ -558,6 +626,10 @@ if selected_cert_id:
                                     
                                     score = correct_count / len(questions)
                                     
+                                    # Calculate actual duration
+                                    exam_start = datetime.fromisoformat(st.session_state.exam_start_time)
+                                    duration_minutes = (datetime.now() - exam_start).total_seconds() / 60
+                                    
                                     # Store results
                                     db = mongo_client["campus-plateform"]
                                     db["scores"].insert_one({
@@ -569,6 +641,7 @@ if selected_cert_id:
                                         "difficulty": difficulty,
                                         "topics": selected_topics,
                                         "answers": results,
+                                        "duration_minutes": round(duration_minutes, 2),
                                         "submitted_at": datetime.now()
                                     })
                                     
@@ -581,7 +654,7 @@ if selected_cert_id:
                                             "score": score,
                                             "difficulty": difficulty,
                                             "topics": selected_topics,
-                                            "duration_minutes": 0  # TODO: Add timer
+                                            "duration_minutes": round(duration_minutes, 2)
                                         }
                                     )
                                     
