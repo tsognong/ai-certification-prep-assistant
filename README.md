@@ -32,7 +32,7 @@
 - **Instant Scoring**: Immediate feedback with detailed explanations
 
 ### 🤖 **Multi-Agent AI Intelligence**
-- **Content Curator Agent**: Automatically fetches and organizes official documentation and study materials
+- **Content Curator Agent**: Automatically fetches and organizes official documentation, exam guides, course syllabi, and study materials
 - **Assessment Engine Agent**: Generates adaptive exam questions that adjust difficulty in real-time
 - **Learning Coach Agent**: Provides personalized study plans, identifies weak areas, and tracks progress
 
