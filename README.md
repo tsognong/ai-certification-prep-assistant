@@ -2,6 +2,18 @@
 
 **Intelligent multi-agent system delivering adaptive mock exams and personalized study paths for technical certifications**
 
+## 📖 Overview
+
+CertAgent is an AI-driven certification preparation platform powered by a multi-agent architecture. The system generates adaptive mock exams that mirror official certification blueprints, analyzes performance in real-time, and delivers personalized coaching through specialized AI agents. 
+
+**Core Capabilities:**
+- **Dynamic Question Generation**: AI creates exam-realistic questions with code snippets, scenarios, and configurations aligned to certification objectives
+- **Mock Exam Engine**: Full-length timed practice tests with instant scoring and detailed explanations
+- **Intelligent Assessment**: Performance-based difficulty adjustment that adapts to your skill level
+- **Extensible Certification Catalog**: Easily add new certifications (MongoDB, AWS, Azure, GCP, Terraform) with official blueprint mapping
+- **Progress Analytics**: Track strengths, weaknesses, and exam readiness through comprehensive dashboards
+- **Persistent Data Layer**: MongoDB stores certifications, exam sessions, user answers, scores, and learning analytics
+
 > **Solving the Certification Gap**: Traditional study materials are static and impersonal. CertAgent uses AI agents to deliver adaptive practice exams that mirror real certification tests, identify knowledge gaps in real-time, and provide personalized coaching—democratizing access to quality certification preparation that was previously only available through expensive boot camps.
 
 [![Python](https://img.shields.io/badge/Python-3.14+-blue.svg)](https://www.python.org/)
