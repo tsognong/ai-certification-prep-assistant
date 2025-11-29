@@ -478,8 +478,8 @@ if selected_cert_id:
         if selected_topics:
             st.success(f"✅ {len(selected_topics)} topics selected")
             
-            # Quiz Configuration
-            st.header("3️⃣ Quiz Configuration")
+            # Exams Configuration
+            st.header("3️⃣ Exams Configuration")
             
             col1, col2 = st.columns(2)
             
