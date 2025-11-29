@@ -64,6 +64,12 @@ class EmbeddingStore:
         embedding = self._generate_embedding(content)
         content_hash = self._generate_content_hash(content)
         
+        # Check if document already exists
+        existing = self.embeddings_collection.find_one({"_id": content_hash})
+        if existing:
+            print(f"   ⏭️  Skipping duplicate: {topic}")
+            return content_hash
+        
         doc = {
             "_id": content_hash,
             "content": content,
@@ -75,12 +81,14 @@ class EmbeddingStore:
             "vector_dim": len(embedding)
         }
         
-        # Upsert to avoid duplicates
-        self.embeddings_collection.update_one(
-            {"_id": content_hash},
-            {"$set": doc},
-            upsert=True
-        )
+        # Insert (not upsert) to avoid index conflicts
+        try:
+            self.embeddings_collection.insert_one(doc)
+        except Exception as e:
+            if "duplicate key" in str(e):
+                print(f"   ⏭️  Skipping duplicate: {topic}")
+            else:
+                raise
         
         return content_hash
     

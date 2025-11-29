@@ -275,14 +275,14 @@ class GoogleAuthManager:
         self.init_session_state()
         
         if not st.session_state.authenticated:
-            st.title("🎓 CertAgent - Universal Certification Preparation")
+            st.title("🎓 AI Certification Prep Assistant - Universal Exam Preparation")
             st.markdown("""
-            Welcome to CertAgent! Prepare for multiple certifications with AI-powered agents:
+            Welcome to AI Certification Prep Assistant! Prepare for certifications, language tests, and licensing exams with AI-powered agents:
             
             - 🤖 **Multi-Agent System**: Content Curator, Assessment Engine, Learning Coach
-            - 📚 **10+ Certifications**: AWS, Azure, GCP, MongoDB, Terraform, and more
-            - 🎯 **Adaptive Learning**: AI adjusts to your skill level
-            - 📊 **Progress Tracking**: Monitor your preparation across certifications
+            - 📚 **Universal Coverage**: AWS, Azure, GCP, MongoDB, Terraform, TCF, IELTS, TOEFL, DELF, driver's license exams
+            - 🎯 **Adaptive Learning**: AI adjusts to your skill level across all exam types
+            - 📊 **Progress Tracking**: Monitor your preparation across all domains
             - 🔄 **Cross-Device Sync**: Study anywhere, progress everywhere
             """)
             

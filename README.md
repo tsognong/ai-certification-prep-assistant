@@ -1,8 +1,8 @@
-# 🎯 CertAgent - AI-Powered Exam Preparation Platform
+# 🎯 AI Certification Prep Assistant - AI-Powered Exam Preparation Platform
 
 **Universal AI-driven multi-agent platform for adaptive exam preparation. Covers professional certifications (AWS, Azure, MongoDB), language proficiency tests (TCF, IELTS, TOEFL, DELF), driver's license exams, and more. Delivers personalized coaching with real-time performance analytics.**
 
-> **Democratizing Quality Exam Preparation**: Traditional study materials are static, expensive, and impersonal. CertAgent uses specialized AI agents to deliver adaptive practice exams that mirror real test formats across diverse domains—from cloud architecture certifications to language proficiency and driving theory—making world-class preparation accessible to everyone.
+> **Democratizing Quality Exam Preparation**: Traditional study materials are static, expensive, and impersonal. AI Certification Prep Assistant uses specialized AI agents to deliver adaptive practice exams that mirror real test formats across diverse domains—from cloud architecture certifications to language proficiency and driving theory—making world-class preparation accessible to everyone.
 
 [![Python](https://img.shields.io/badge/Python-3.14+-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.38+-red.svg)](https://streamlit.io/)
@@ -39,8 +39,11 @@
 - **Instant Scoring**: Immediate feedback with detailed explanations
 
 ### 🤖 **Multi-Agent AI Intelligence**
-- **Content Curator Agent**: Automatically fetches and organizes official documentation, exam guides, course syllabi, and study materials
-  > **ℹ️ The Curator Agent is actively fetching exam materials and guides for each certification attempt, ensuring you have the most relevant resources before your quiz.**
+### 🤖 **Multi-Agent AI Intelligence**
+- **Content Curator Agent**: Automatically fetches and organizes official documentation, exam guides, course syllabi, and study materials from web sources and APIs
+  > **ℹ️ The Curator Agent dynamically scrapes content from official sources, ensuring you have the most current materials before your quiz.**
+- **Assessment Engine Agent**: Generates adaptive exam questions that adjust difficulty in real-time
+- **Learning Coach Agent**: Provides personalized study plans, identifies weak areas, and tracks progress
 - **Assessment Engine Agent**: Generates adaptive exam questions that adjust difficulty in real-time
 - **Learning Coach Agent**: Provides personalized study plans, identifies weak areas, and tracks progress
 
@@ -250,10 +253,16 @@
    GOOGLE_REDIRECT_URI=http://localhost:8501
    ```
 
-5. **Initialize the system**
+6. **Load Runtime Content**
    ```bash
-   python initialize_system.py
+   python load_ai_content.py [certification-id]
+   # Examples:
+   # python load_ai_content.py ai-fundamentals
+   # python load_ai_content.py aws-solutions-architect
+   # python load_ai_content.py mongodb-developer
    ```
+
+   This dynamically scrapes content from official documentation websites and APIs, keeping the knowledge base current.
 
 6. **Run the application**
    ```bash
@@ -324,7 +333,7 @@
 
 1. **Build image**
    ```bash
-   docker build -t certagent:latest .
+   docker build -t ai-cert-prep-assistant:latest .
    ```
 
 2. **Run container**
@@ -336,7 +345,7 @@
      -e GOOGLE_CLIENT_ID="your-client-id" \
      -e GOOGLE_CLIENT_SECRET="your-secret" \
      -e GOOGLE_REDIRECT_URI="http://localhost:8501" \
-     certagent:latest
+     ai-cert-prep-assistant:latest
    ```
 
 ### Option 3: Streamlit Cloud
@@ -410,9 +419,9 @@ python initialize_system.py
 │   └── __init__.py
 ├── pages/                     # Streamlit pages
 │   └── 1_📊_Monitoring_Dashboard.py
-├── data/                      # Study materials
-│   ├── ai/                   # AI course data
-│   └── mongo/                # MongoDB docs
+├── data/                      # Static data (deprecated - now runtime-based)
+│   ├── ai/                   # AI course data (removed)
+│   └── mongo/                # MongoDB docs (removed)
 ├── terraform/                 # Infrastructure as Code
 ├── app.py                    # Main application
 ├── initialize_system.py      # Setup script
@@ -474,7 +483,7 @@ Metrics include:
 
 ## 🔮 Future Vision
 
-CertAgent aims to become the leading AI-powered certification preparation platform by expanding certification coverage, integrating with official exam providers, and adding mobile support. Planned enhancements include image-based questions for architecture diagrams, video explanations for complex topics, and collaborative study features to build a global community of learners preparing for professional certifications.
+AI Certification Prep Assistant aims to become the leading AI-powered exam preparation platform by expanding exam coverage across all domains, integrating with official exam providers, and adding mobile support. Planned enhancements include image-based questions for architecture diagrams, video explanations for complex topics, and collaborative study features to build a global community of learners preparing for professional certifications, language exams, and licensing tests.
 
 ---
 

@@ -46,10 +46,52 @@ CERTIFICATION_PACKS = {
             "Replication",
             "Sharding"
         ],
-        "documentation_sources": [
-            "https://www.mongodb.com/docs/",
-            "https://www.mongodb.com/docs/drivers/java/sync/current/",
-            "https://learn.mongodb.com/learning-paths/mongodb-developer-associate-exam-study-guide"
+        "available_resources": [
+            {
+                "type": "official_docs",
+                "title": "MongoDB Manual",
+                "url": "https://docs.mongodb.com/manual/",
+                "description": "Official MongoDB documentation and manual",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["docs.mongodb.com"],
+                    "max_pages": 50,
+                    "content_selectors": ["article", ".content", "main"],
+                    "exclude_patterns": ["/api/", "/reference/api/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            },
+            {
+                "type": "learning_path",
+                "title": "MongoDB Developer Associate Study Guide",
+                "url": "https://learn.mongodb.com/learning-paths/mongodb-developer-associate-exam-study-guide",
+                "description": "Official MongoDB learning path for certification",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["learn.mongodb.com"],
+                    "max_pages": 20,
+                    "content_selectors": [".lesson-content", ".module-content"],
+                    "exclude_patterns": ["/quiz/", "/assessment/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            },
+            {
+                "type": "exam_guide",
+                "title": "MongoDB Developer Associate Exam Guide",
+                "url": "https://learn.mongodb.com/pages/mongodb-developer-associate-exam-guide",
+                "description": "Official MongoDB Developer Associate certification exam guide",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["learn.mongodb.com"],
+                    "max_pages": 10,
+                    "content_selectors": [".exam-guide-content", ".guide-content", "article"],
+                    "exclude_patterns": ["/training/", "/certification/register/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            }
         ],
         "created_at": datetime.now(),
         "active": True
@@ -96,10 +138,52 @@ CERTIFICATION_PACKS = {
             "Security Groups & NACLs",
             "Cost Optimization Strategies"
         ],
-        "documentation_sources": [
-            "https://docs.aws.amazon.com/",
-            "https://aws.amazon.com/architecture/",
-            "https://aws.amazon.com/certification/certified-solutions-architect-associate/"
+        "available_resources": [
+            {
+                "type": "official_docs",
+                "title": "AWS Documentation",
+                "url": "https://docs.aws.amazon.com/",
+                "description": "Official AWS documentation and service guides",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["docs.aws.amazon.com"],
+                    "max_pages": 100,
+                    "content_selectors": ["article", ".content", "main"],
+                    "exclude_patterns": ["/console/", "/cli/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            },
+            {
+                "type": "architecture_center",
+                "title": "AWS Architecture Center",
+                "url": "https://aws.amazon.com/architecture/",
+                "description": "AWS architecture patterns and best practices",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["aws.amazon.com"],
+                    "max_pages": 30,
+                    "content_selectors": [".architecture-content", ".pattern-content"],
+                    "exclude_patterns": ["/pricing/", "/contact/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            },
+            {
+                "type": "exam_guide",
+                "title": "AWS Solutions Architect Associate Exam Guide",
+                "url": "https://aws.amazon.com/certification/certified-solutions-architect-associate/",
+                "description": "Official AWS SAA-C03 certification exam guide and requirements",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["aws.amazon.com"],
+                    "max_pages": 5,
+                    "content_selectors": [".exam-guide-content", ".certification-content", "article"],
+                    "exclude_patterns": ["/training/", "/register/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            }
         ],
         "created_at": datetime.now(),
         "active": True
@@ -149,10 +233,52 @@ CERTIFICATION_PACKS = {
             "Terraform Functions",
             "Dependencies and Graph"
         ],
-        "documentation_sources": [
-            "https://developer.hashicorp.com/terraform/docs",
-            "https://developer.hashicorp.com/terraform/tutorials",
-            "https://www.hashicorp.com/certification/terraform-associate"
+        "available_resources": [
+            {
+                "type": "official_docs",
+                "title": "HashiCorp Terraform Documentation",
+                "url": "https://developer.hashicorp.com/terraform/docs",
+                "description": "Official Terraform documentation and guides",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["developer.hashicorp.com"],
+                    "max_pages": 50,
+                    "content_selectors": ["article", ".content", "main"],
+                    "exclude_patterns": ["/api/", "/registry/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            },
+            {
+                "type": "tutorials",
+                "title": "Terraform Tutorials",
+                "url": "https://developer.hashicorp.com/terraform/tutorials",
+                "description": "Official Terraform tutorials and examples",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["developer.hashicorp.com"],
+                    "max_pages": 25,
+                    "content_selectors": [".tutorial-content", ".example-content"],
+                    "exclude_patterns": ["/certification/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            },
+            {
+                "type": "exam_guide",
+                "title": "HashiCorp Terraform Associate Exam Guide",
+                "url": "https://developer.hashicorp.com/terraform/tutorials/certification",
+                "description": "Official HashiCorp Terraform Associate certification exam guide",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["developer.hashicorp.com"],
+                    "max_pages": 8,
+                    "content_selectors": [".exam-guide-content", ".certification-content", "article"],
+                    "exclude_patterns": ["/training/schedule/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            }
         ],
         "created_at": datetime.now(),
         "active": True
@@ -195,9 +321,52 @@ CERTIFICATION_PACKS = {
             "Azure Security Center",
             "Azure Policy"
         ],
-        "documentation_sources": [
-            "https://learn.microsoft.com/en-us/azure/",
-            "https://learn.microsoft.com/en-us/certifications/azure-fundamentals/"
+        "available_resources": [
+            {
+                "type": "official_docs",
+                "title": "Microsoft Learn - Azure",
+                "url": "https://learn.microsoft.com/en-us/azure/",
+                "description": "Official Microsoft Azure documentation and learning paths",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["learn.microsoft.com"],
+                    "max_pages": 75,
+                    "content_selectors": ["article", ".content", "main"],
+                    "exclude_patterns": ["/training/", "/certification/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            },
+            {
+                "type": "learning_path",
+                "title": "Azure Fundamentals Learning Path",
+                "url": "https://learn.microsoft.com/en-us/certifications/azure-fundamentals/",
+                "description": "Official Azure Fundamentals certification learning path",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["learn.microsoft.com"],
+                    "max_pages": 15,
+                    "content_selectors": [".learning-path-content", ".module-content"],
+                    "exclude_patterns": ["/exam/", "/practice/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            },
+            {
+                "type": "exam_guide",
+                "title": "Azure Fundamentals (AZ-900) Exam Guide",
+                "url": "https://learn.microsoft.com/en-us/certifications/exams/az-900/",
+                "description": "Official Microsoft Azure Fundamentals AZ-900 exam guide",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["learn.microsoft.com"],
+                    "max_pages": 6,
+                    "content_selectors": [".exam-guide-content", ".certification-content", "article"],
+                    "exclude_patterns": ["/training/", "/schedule/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            }
         ],
         "created_at": datetime.now(),
         "active": True
@@ -241,9 +410,52 @@ CERTIFICATION_PACKS = {
             "Cloud Build",
             "Cloud Run"
         ],
-        "documentation_sources": [
-            "https://cloud.google.com/docs",
-            "https://cloud.google.com/learn/certification/cloud-engineer"
+        "available_resources": [
+            {
+                "type": "official_docs",
+                "title": "Google Cloud Documentation",
+                "url": "https://cloud.google.com/docs",
+                "description": "Official Google Cloud Platform documentation",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["cloud.google.com"],
+                    "max_pages": 80,
+                    "content_selectors": ["article", ".content", "main"],
+                    "exclude_patterns": ["/pricing/", "/support/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            },
+            {
+                "type": "learning_path",
+                "title": "Cloud Engineer Learning Path",
+                "url": "https://cloud.google.com/learn/certification/cloud-engineer",
+                "description": "Official Google Cloud Associate Cloud Engineer learning path",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["cloud.google.com"],
+                    "max_pages": 20,
+                    "content_selectors": [".learning-content", ".path-content"],
+                    "exclude_patterns": ["/exam/", "/training/pricing/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            },
+            {
+                "type": "exam_guide",
+                "title": "Associate Cloud Engineer Exam Guide",
+                "url": "https://cloud.google.com/learn/certification/guides/cloud-engineer",
+                "description": "Official Google Cloud Associate Cloud Engineer exam guide",
+                "access_type": "free",
+                "scrape_config": {
+                    "allowed_domains": ["cloud.google.com"],
+                    "max_pages": 7,
+                    "content_selectors": [".exam-guide-content", ".guide-content", "article"],
+                    "exclude_patterns": ["/training/", "/register/"]
+                },
+                "quality_verified": True,
+                "last_checked": "2025-11-29"
+            }
         ],
         "created_at": datetime.now(),
         "active": True
@@ -289,10 +501,10 @@ class CertificationPackLoader:
         pack = self.get_pack(cert_id)
         return pack["blueprint"] if pack else {}
     
-    def get_doc_sources(self, cert_id: str) -> List[str]:
-        """Get documentation sources for a certification"""
+    def get_available_resources(self, cert_id: str) -> List[Dict]:
+        """Get available resources for a certification"""
         pack = self.get_pack(cert_id)
-        return pack["documentation_sources"] if pack else []
+        return pack["available_resources"] if pack else []
     
     def add_custom_pack(self, pack_data: Dict) -> str:
         """Add a custom certification pack"""

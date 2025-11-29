@@ -1,8 +1,8 @@
 """
-CertAgent - AI-Assisted Certification Preparation
+AI Certification Prep Assistant - Universal AI-Assisted Exam Preparation
 
-Intelligent multi-agent system for personalized certification exam preparation.
-Supports: MongoDB, AWS, Azure, GCP, Terraform, and more.
+Intelligent multi-agent system for personalized exam preparation across all domains.
+Supports: MongoDB, AWS, Azure, GCP, Terraform, language tests, and licensing exams.
 """
 import os
 import json
@@ -37,7 +37,7 @@ logger = structlog.get_logger()
 
 # Page config
 st.set_page_config(
-    page_title="CertAgent - AI-Assisted Certification Prep",
+    page_title="AI Certification Prep Assistant - Universal AI-Assisted Exam Prep",
     page_icon="🎯",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -228,8 +228,8 @@ if "code" in query_params and not st.session_state.authenticated:
             # Store session in browser localStorage via JavaScript
             st.markdown(f"""
             <script>
-                localStorage.setItem('cert_agent_session', '{session_token}');
-                localStorage.setItem('cert_agent_session_expires', '{(datetime.now() + timedelta(days=7)).isoformat()}');
+                localStorage.setItem('ai_cert_prep_session', '{session_token}');
+                localStorage.setItem('ai_cert_prep_session_expires', '{(datetime.now() + timedelta(days=7)).isoformat()}');
             </script>
             """, unsafe_allow_html=True)
             
@@ -308,8 +308,8 @@ if not st.session_state.authenticated:
     # Check localStorage for existing session
     st.markdown("""
     <script>
-        const sessionToken = localStorage.getItem('cert_agent_session');
-        const expiresAt = localStorage.getItem('cert_agent_session_expires');
+        const sessionToken = localStorage.getItem('ai_cert_prep_session');
+        const expiresAt = localStorage.getItem('ai_cert_prep_session_expires');
         
         if (sessionToken && expiresAt) {
             const now = new Date();
@@ -320,8 +320,8 @@ if not st.session_state.authenticated:
                 window.location.href = '?session=' + sessionToken + '&page=app';
             } else {
                 // Clear expired session
-                localStorage.removeItem('cert_agent_session');
-                localStorage.removeItem('cert_agent_session_expires');
+                localStorage.removeItem('ai_cert_prep_session');
+                localStorage.removeItem('ai_cert_prep_session_expires');
             }
         }
     </script>
@@ -360,7 +360,7 @@ if not st.session_state.authenticated:
     except FileNotFoundError:
         st.error("Landing page not found. Please ensure index.html exists.")
         # Fallback to simple login
-        st.markdown("### Welcome to CertAgent! 👋")
+        st.markdown("### Welcome to AI Certification Prep Assistant! 👋")
         if st.button("🔐 Sign in with Google", type="primary"):
             auth_url = auth_manager.get_google_login_url()
             st.markdown(f'<meta http-equiv="refresh" content="0; url={auth_url}">', unsafe_allow_html=True)
@@ -370,8 +370,8 @@ if not st.session_state.authenticated:
 # ==================== Main App ====================
 
 # Header
-st.markdown('<div class="main-header">🎯 CertAgent</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">AI-Assisted Certification Preparation</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">🎯 AI Certification Prep Assistant</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Universal AI-Assisted Exam Preparation</div>', unsafe_allow_html=True)
 
 # Sidebar
 with st.sidebar:
@@ -393,8 +393,8 @@ with st.sidebar:
         # Clear localStorage
         st.markdown("""
         <script>
-            localStorage.removeItem('cert_agent_session');
-            localStorage.removeItem('cert_agent_session_expires');
+            localStorage.removeItem('ai_cert_prep_session');
+            localStorage.removeItem('ai_cert_prep_session_expires');
         </script>
         """, unsafe_allow_html=True)
         
@@ -873,4 +873,4 @@ if selected_cert_id:
 
 # Footer
 st.divider()
-st.caption("🎯 CertAgent - Built with multi-agent AI architecture • Powered by Google Gemini & MongoDB")
+st.caption("🎯 AI Certification Prep Assistant - Built with multi-agent AI architecture • Powered by Google Gemini & MongoDB")

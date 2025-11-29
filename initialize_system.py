@@ -1,5 +1,5 @@
 """
-CertAgent Initialization Script
+AI Certification Prep Assistant Initialization Script
 
 Initializes the database with certification packs and sets up the system.
 Run this once after setting up your environment variables.
@@ -123,7 +123,7 @@ def create_indexes(client):
 def main():
     """Main initialization routine"""
     print("=" * 60)
-    print("🚀 CertAgent Initialization")
+    print("🚀 AI Certification Prep Assistant Initialization")
     print("=" * 60)
     print()
     
@@ -160,8 +160,6 @@ def main():
     if not initialize_certification_packs(client):
         sys.exit(1)
     
-    print()
-    print("=" * 60)
     print("✅ Initialization complete!")
     print("=" * 60)
     print()

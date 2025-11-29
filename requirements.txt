@@ -15,3 +15,5 @@ numpy
 aiohttp
 structlog
 textstat
+firecrawl-py
+

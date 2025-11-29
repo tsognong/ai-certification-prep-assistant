@@ -33,7 +33,7 @@ agent_metrics = db["agent_metrics"]
 quizzes = db["quizzes"]
 scores = db["scores"]
 
-st.title("🎯 CertAgent Monitoring Dashboard")
+st.title("🎯 AI Certification Prep Assistant Monitoring Dashboard")
 st.caption("Real-time agent performance and quality metrics")
 
 # Refresh button

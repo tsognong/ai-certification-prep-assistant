@@ -1,9 +1,9 @@
 """
-Multi-Agent Architecture for CertAgent
+Multi-Agent Architecture for AI Certification Prep Assistant
 
 Implements 3 specialized agents:
 1. Content Curator Agent - Fetches and organizes study materials
-2. Assessment Engine Agent - Generates adaptive certification questions
+2. Assessment Engine Agent - Generates adaptive exam questions
 3. Learning Coach Agent - Provides personalized recommendations
 """
 from typing import Dict, List, Any, Optional
@@ -14,6 +14,111 @@ from pymongo import MongoClient
 from datetime import datetime
 import json
 import asyncio
+
+
+# Tool definitions for agents
+class BaseTool:
+    """Base class for agent tools"""
+    def __init__(self, name: str, description: str):
+        self.name = name
+        self.description = description
+
+    async def execute(self, **kwargs) -> Any:
+        raise NotImplementedError
+
+
+class Tool:
+    """Wrapper for tool functions with full descriptions"""
+    def __init__(self, func, name: str, description: str):
+        self.func = func
+        self.name = name
+        self.description = description
+
+    def execute(self, **kwargs):
+        return self.func(**kwargs)
+
+
+# Define tools with full descriptions
+def get_certification_blueprint(certification_id: str) -> Dict[str, Any]:
+    """Retrieves the detailed blueprint for a specific certification.
+
+    Args:
+        certification_id: The unique identifier of the certification (e.g., "ai-fundamentals").
+
+    Returns:
+        Dictionary with status and blueprint information.
+        Success: {"status": "success", "blueprint": {"topics": [...], "question_types": {...}, ...}}
+        Error: {"status": "error", "error_message": "Certification not found"}
+    """
+    # This would be implemented to fetch from DB
+    # For now, return a placeholder
+    blueprint = {
+        "topics": ["Machine Learning", "AI Fundamentals", "Data Science"],
+        "question_types": {"mcq": 0.8, "msq": 0.2},
+        "difficulty_distribution": {"easy": 0.3, "medium": 0.5, "hard": 0.2}
+    }
+    return {"status": "success", "blueprint": blueprint}
+
+
+def get_user_performance_history(user_id: str, certification_id: str) -> Dict[str, Any]:
+    """Fetches the user's historical performance data for a given certification.
+
+    Args:
+        user_id: The unique identifier of the user.
+        certification_id: The unique identifier of the certification.
+
+    Returns:
+        Dictionary with status and performance information.
+        Success: {"status": "success", "performance": {"average_score": 75.0, "total_sessions": 10, ...}}
+        Error: {"status": "error", "error_message": "User data not found"}
+    """
+    # Placeholder implementation
+    performance = {
+        "average_score": 75.0,
+        "total_sessions": 10,
+        "weak_topics": ["Neural Networks", "Deep Learning"],
+        "strong_topics": ["Basic ML", "Statistics"]
+    }
+    return {"status": "success", "performance": performance}
+
+
+def search_study_materials(query: str, certification_id: str) -> Dict[str, Any]:
+    """Searches the embedding store for relevant study materials.
+
+    Args:
+        query: The search query string (e.g., "machine learning basics").
+        certification_id: The unique identifier of the certification.
+
+    Returns:
+        Dictionary with status and materials information.
+        Success: {"status": "success", "materials": [{"content": "...", "topic": "..."}, ...]}
+        Error: {"status": "error", "error_message": "Search failed"}
+    """
+    # Placeholder - would integrate with embedding store
+    materials = [
+        {"content": "Sample content for " + query, "topic": query}
+    ]
+    return {"status": "success", "materials": materials}
+
+
+# Create tool instances with full descriptions
+get_certification_blueprint_tool = Tool(
+    func=get_certification_blueprint,
+    name="get_certification_blueprint",
+    description="Retrieves the detailed blueprint for a specific certification, including topics, question type distributions, difficulty levels, and exam structure. This tool provides comprehensive information about certification requirements and content organization."
+)
+
+get_user_performance_history_tool = Tool(
+    func=get_user_performance_history,
+    name="get_user_performance_history",
+    description="Fetches the user's historical performance data for a given certification, including average scores, total practice sessions, weak and strong topics, and learning patterns. This helps in personalizing difficulty adjustments and study recommendations."
+)
+
+search_study_materials_tool = Tool(
+    func=search_study_materials,
+    name="search_study_materials",
+    description="Searches the embedding store for relevant study materials based on a query and certification ID. Returns a list of documents containing content snippets, topics, and metadata to support content curation and question generation."
+)
 
 
 # Retry configuration for API calls
@@ -162,16 +267,21 @@ class ContentCuratorAgent:
         self.embeddings_collection = self.db["embeddings"]
         self.certifications_collection = self.db["certifications"]
         
-        # Initialize Gemini for content summarization
-        self.llm = Gemini(
-            model_name="gemini-2.0-flash-lite",
-            api_key=gemini_api_key,
-            generation_config=types.GenerationConfig(
-                temperature=0.3,
-                top_p=0.95,
-                max_output_tokens=2048,
+        # Initialize LlmAgent with tools for autonomous content fetching
+        self.agent = LlmAgent(
+            name="ContentCuratorAgent",
+            llm=Gemini(
+                model_name="gemini-2.0-flash-lite",
+                api_key=gemini_api_key,
+                generation_config=types.GenerationConfig(
+                    temperature=0.3,
+                    top_p=0.95,
+                    max_output_tokens=2048,
+                ),
+                http_options=retry_config
             ),
-            http_options=retry_config
+            system_instructions="You are a content curator for AI certification preparation. Fetch and organize relevant study materials using available tools.",
+            tools=[search_study_materials_tool, get_certification_blueprint_tool]
         )
     
     async def fetch_study_materials(
@@ -220,7 +330,7 @@ class ContentCuratorAgent:
 
 Provide a comprehensive but concise summary."""
             
-            summary = await self.llm.generate_content_async(summary_prompt)
+            summary = await self.agent.generate_response_async(summary_prompt)
             return summary.text if hasattr(summary, 'text') else str(summary)
         
         return combined_materials
@@ -248,7 +358,8 @@ class AssessmentEngineAgent:
                 ),
                 http_options=retry_config
             ),
-            system_instructions="You are an expert certification exam question writer. Generate high-quality, certification-standard questions."
+            system_instructions="You are an expert certification exam question writer. Generate high-quality, certification-standard questions.",
+            tools=[get_certification_blueprint_tool, search_study_materials_tool]
         )
     
     async def generate_questions(
@@ -385,16 +496,21 @@ class LearningCoachAgent:
         self.db = mongo_client[db_name]
         self.users_collection = self.db["users"]
         
-        # Initialize Gemini for recommendations
-        self.llm = Gemini(
-            model_name="gemini-2.0-flash-lite",
-            api_key=gemini_api_key,
-            generation_config=types.GenerationConfig(
-                temperature=0.5,
-                top_p=0.95,
-                max_output_tokens=2048,
+        # Initialize LlmAgent with tools for personalized recommendations
+        self.agent = LlmAgent(
+            name="LearningCoachAgent",
+            llm=Gemini(
+                model_name="gemini-2.0-flash-lite",
+                api_key=gemini_api_key,
+                generation_config=types.GenerationConfig(
+                    temperature=0.5,
+                    top_p=0.95,
+                    max_output_tokens=2048,
+                ),
+                http_options=retry_config
             ),
-            http_options=retry_config
+            system_instructions="You are a learning coach providing personalized study recommendations based on user performance data.",
+            tools=[get_user_performance_history_tool, get_certification_blueprint_tool]
         )
     
     async def adjust_difficulty_for_user(
@@ -465,7 +581,7 @@ Provide:
 
 Format as a brief, actionable plan."""
         
-        response = await self.llm.generate_content_async(prompt)
+        response = await self.agent.generate_response_async(prompt)
         recommendation = response.text if hasattr(response, 'text') else str(response)
         
         return {
