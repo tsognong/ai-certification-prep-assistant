@@ -716,12 +716,12 @@ if selected_cert_id:
                         
                         st.markdown('</div>', unsafe_allow_html=True)
                     
-                    # Submit Quiz
+                    # Submit exams responses
                     if not st.session_state.quiz_submitted:
                         col1, col2, col3 = st.columns([1, 1, 1])
                         
                         with col2:
-                            if st.button("📝 Submit Quiz", type="primary", use_container_width=True):
+                            if st.button("📝 Submit Answers", type="primary", use_container_width=True):
                                 if len(st.session_state.user_answers) < len(questions):
                                     st.warning("⚠️ Please answer all questions before submitting.")
                                 else:

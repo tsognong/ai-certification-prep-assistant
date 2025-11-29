@@ -86,68 +86,60 @@
 
 ## 🏗️ Architecture
 
-### System Architecture Diagram
 
+### System Architecture Diagram (Generated via Mermaid MCP)
+
+```mermaid
+flowchart TB
+   %% User Interaction Layer
+   U[👤 User] --> API[API Gateway]
+   API --> Auth[Authentication Service]
+    
+   %% Agent Orchestration Layer
+   Auth --> AO[Agent Orchestrator]
+   AO --> CCA[Content Curator Agent]
+   AO --> AEA[Assessment Engine Agent] 
+   AO --> LCA[Learning Coach Agent]
+    
+   %% A2A Communication Layer
+   CCA -.->|A2A Messages| AEA
+   CCA -.->|A2A Messages| LCA
+   AEA -.->|A2A Messages| LCA
+   LCA -.->|A2A Messages| CCA
+   AEA -.->|A2A Messages| CCA
+    
+   %% Data Layer
+   CCA --> DB[(MongoDB)]
+   AEA --> DB
+   LCA --> DB
+    
+   %% External Services
+   CCA --> FC[Firecrawl\nWeb Scraping]
+   CCA --> GS[Google Search\nAPI]
+   AEA --> GEM[GEMINI\nLLM]
+   LCA --> GEM
+    
+   %% Content Sources
+   FC --> WEB[Official Docs\nWebsites]
+   GS --> SEARCH[Search Results\n& Tutorials]
+    
+   %% Styling
+   classDef userClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+   classDef agentClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+   classDef serviceClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+   classDef dataClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    
+   class U userClass
+   class CCA,AEA,LCA,AO agentClass
+   class API,Auth,FC,GS,GEM serviceClass
+   class DB dataClass
 ```
-├─────────────────────────────────────────────────────────────────────┐
-│                         STREAMLIT FRONTEND                           │
-│  ├──────────────┐  ├──────────────┐  ├─────────────────────────┐  │
-│  │  Login Page  │→ │ Cert Selector│→ │  Exam Interface         │  │
-│  │  (OAuth)     │  │ & Topics     │  │  - Questions Display    │  │
-│  └──────────────┘  └──────────────┘  │  - Answer Submission    │  │
-│                                       │  - Results & Coaching   │  │
-│                                       └─────────────────────────┘  │
-└────────────────────────────┬─────────────────────────────────────────┘
-                             │
-                             ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                      AGENT ORCHESTRATOR                              │
-│  ┌──────────────────────────────────────────────────────────────┐  │
-│  │                    Routes requests to agents                  │  │
-│  │              Logs activities & metrics                        │  │
-│  └──────────────────────────────────────────────────────────────┘  │
-│         │                    │                    │                 │
-│         ▼                    ▼                    ▼                 │
-│  ┌────────────┐      ┌──────────────┐     ┌────────────────┐      │
-│  │  Content   │      │  Assessment  │     │   Learning     │      │
-│  │  Curator   │      │   Engine     │     │    Coach       │      │
-│  │  Agent     │      │   Agent      │     │    Agent       │      │
-│  └─────┬──────┘      └──────┬───────┘     └────────┬───────┘      │
-│        │                    │                      │                │
-│        │ • Fetch materials  │ • Generate exam      │ • Analyze perf│
-│        │ • Summarize docs   │ • Adaptive diff.     │ • Study plan  │
-│        │ • Semantic search  │ • Validate qs        │ • Coaching    │
-│        │                    │                      │                │
-└────────┼────────────────────┼──────────────────────┼────────────────┘
-         │                    │                      │
-         ▼                    ▼                      ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                        GOOGLE GEMINI API                             │
-│  ┌──────────────────────────────────────────────────────────────┐  │
-│  │  Configurable Models:                                         │  │
-│  │  • Generation: gemini-2.5-flash-lite, gemini-pro, etc.       │  │
-│  │  • Embeddings: text-embedding-004, text-embedding-005        │  │
-│  │  • Content generation   • Question creation                   │  │
-│  └──────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────┘
-         │
-         ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                      MONGODB ATLAS DATABASE                          │
-│  ├──────────────┐  ├──────────────┐  ├──────────────────────┐  │
-│  │ certifications│  │    users     │  │      exams              │  │
-│  │ - packs       │  │ - profiles   │  │  - questions            │  │
-│  │ - topics      │  │ - OAuth data │  │  - user_answers         │  │
-│  │ - blueprints  │  │ - sessions   │  │  - scores               │  │
-│  └──────────────┘  └──────────────┘  └──────────────────────────┘  │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────────┐  │
-│  │  embeddings  │  │ agent_logs   │  │   memory_*              │  │
-│  │ - semantic   │  │ - activities │  │  - episodic             │  │
-│  │ - vectors    │  │ - metrics    │  │  - procedural           │  │
-│  │              │  │              │  │  - prospective          │  │
-│  └──────────────┘  └──────────────┘  └──────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+**Key Updates:**
+- Added `mermaid-mcp` server integration for live architecture diagram generation.
+- Agents now communicate via A2A (Agent-to-Agent) messaging for dynamic collaboration.
+- Content Curator Agent uses Firecrawl for official documentation scraping and Google Search API for supplementary content.
+- All agents interact with MongoDB for persistent storage and memory.
 
 ### Data Flow
 
