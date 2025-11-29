@@ -40,7 +40,32 @@ This project is designed for competitive exam preparation across professional ce
 
 ## Architecture
 
-The system is organized into three main agents:
+### System Architecture Diagram
+
+```mermaid
+flowchart TB
+   U[User] --> Auth[Authentication]
+   Auth --> Orchestrator[Agent Orchestrator]
+   Orchestrator --> Curator[Content Curator Agent]
+   Orchestrator --> Assessment[Assessment Engine Agent]
+   Orchestrator --> Coach[Learning Coach Agent]
+   Curator -.->|A2A| Assessment
+   Curator -.->|A2A| Coach
+   Assessment -.->|A2A| Coach
+   Coach -.->|A2A| Curator
+   Assessment -.->|A2A| Curator
+   Curator --> DB[(MongoDB)]
+   Assessment --> DB
+   Coach --> DB
+   Curator --> Firecrawl[Firecrawl Web Scraping]
+   Curator --> GoogleSearch[Google Search API]
+   Assessment --> Gemini[Gemini LLM]
+   Coach --> Gemini
+   Firecrawl --> Docs[Official Docs]
+   GoogleSearch --> Tutorials[Search Results & Tutorials]
+```
+
+**Agents:**
 - Content Curator: Scrapes and summarizes official documentation using Firecrawl and Google Search API.
 - Assessment Engine: Generates exam questions, adapts difficulty, and aligns with certification blueprints.
 - Learning Coach: Tracks user performance, analyzes results, and recommends study plans.
