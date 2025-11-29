@@ -1,8 +1,7 @@
-# 🎯 AI Certification Prep Assistant - AI-Powered Exam Preparation Platform
 
-**Universal AI-driven multi-agent platform for adaptive exam preparation. Covers professional certifications (AWS, Azure, MongoDB), language proficiency tests (TCF, IELTS, TOEFL, DELF), driver's license exams, and more. Delivers personalized coaching with real-time performance analytics.**
+# AI Certification Prep Assistant
 
-> **Democratizing Quality Exam Preparation**: Traditional study materials are static, expensive, and impersonal. AI Certification Prep Assistant uses specialized AI agents to deliver adaptive practice exams that mirror real test formats across diverse domains—from cloud architecture certifications to language proficiency and driving theory—making world-class preparation accessible to everyone.
+This project is designed for competitive exam preparation across professional certifications, language proficiency, and licensing tests. It uses a modular, multi-agent system to deliver realistic practice exams, personalized study plans, and performance analytics. All content is sourced from official documentation and APIs, with no reliance on generic AI-generated material.
 
 [![Python](https://img.shields.io/badge/Python-3.14+-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.38+-red.svg)](https://streamlit.io/)
@@ -22,183 +21,49 @@
 
 ---
 
-## ✨ Features
+## Features
 
-### 🏠 **Professional Landing Page**
-- **Modern Design**: Clean, responsive landing page built with Tailwind CSS
-- **Product Overview**: Comprehensive explanation of AI-powered exam preparation across multiple domains
-- **Success Statistics**: Real exam failure rates and financial impact of retakes
-- **Target Audience**: IT professionals, language learners, students preparing for driver's licenses, career changers, and organizations
-- **Capstone-Ready**: Professional presentation suitable for academic competitions
-
-### 🎓 **Exam-Realistic Practice**
-- **Mock Exams**: Full-length practice tests mirroring official certification formats
-- **Timed Sessions**: Simulate real exam pressure with countdown timers
-- **Performance-Based Questions**: Code snippets, configuration scenarios, and hands-on challenges
-- **Official Blueprint Alignment**: Questions mapped to actual exam objectives
-- **Instant Scoring**: Immediate feedback with detailed explanations
-
-### 🤖 **Multi-Agent AI Intelligence**
-### 🤖 **Multi-Agent AI Intelligence**
-- **Content Curator Agent**: Automatically fetches and organizes official documentation, exam guides, course syllabi, and study materials from web sources and APIs
-  > **ℹ️ The Curator Agent dynamically scrapes content from official sources, ensuring you have the most current materials before your quiz.**
-- **Assessment Engine Agent**: Generates adaptive exam questions that adjust difficulty in real-time
-- **Learning Coach Agent**: Provides personalized study plans, identifies weak areas, and tracks progress
-- **Assessment Engine Agent**: Generates adaptive exam questions that adjust difficulty in real-time
-- **Learning Coach Agent**: Provides personalized study plans, identifies weak areas, and tracks progress
-
-### 📚 **Universal Exam Coverage**
-- **Professional IT Certifications**: AWS Solutions Architect, Azure Fundamentals, MongoDB Developer, Google Cloud Associate, Terraform Associate
-- **Language Proficiency Tests**: TCF (Test de Connaissance du Français), IELTS, TOEFL, DELF/DALF, and other standardized language assessments
-- **Driver's License Exams**: Theory tests for various jurisdictions with traffic rules, road signs, and safe driving practices
-- **Extensible Framework**: Easily add new exam types through the modular certification pack system
-- **Terraform Associate**: Infrastructure as Code, state management, modules
-- **Extensible Platform**: Add new certifications in minutes
-
-### 🧠 **Intelligent Memory System**
-- **Episodic Memory**: Tracks every practice test, score, and improvement trajectory
-- **Semantic Memory**: Vector-based search across thousands of exam concepts
-- **Procedural Memory**: Learns your study patterns and optimal learning times
-- **Prospective Memory**: Smart reminders for spaced repetition reviews
-- **Performance Analytics**: Visual dashboards showing strengths and weaknesses
-
-### 🎯 **Adaptive Learning Engine**
-- **Dynamic Difficulty**: Questions automatically adjust based on your performance
-- **Personalized Study Paths**: AI recommends next topics based on weak areas
-- **Spaced Repetition**: Revisit challenging concepts at optimal intervals
-- **Code-First Questions**: Real programming scenarios for technical certifications
-- **Progress Tracking**: Visual metrics showing readiness for actual exam
-
-### 🔐 **Enterprise-Grade Security**
-- Google OAuth 2.0 authentication
-- Encrypted session management (7-day persistence)
-- HTTPS-only connections
-- MongoDB Atlas encryption at rest
-- No credential storage in code
-
-### 📊 **AI for Good Impact**
-- **Democratizing Education**: Free/affordable alternative to $500+ boot camps
-- **Equal Access**: Anyone with internet can access premium-quality exam prep
-- **Career Advancement**: Helps underrepresented groups break into tech
-- **Measurable Outcomes**: Track pass rates and career progression
+- Modern, responsive landing page (Tailwind CSS)
+- Practice exams aligned to official certification blueprints
+- Timed sessions and instant scoring
+- Code-based and scenario questions for technical certifications
+- Modular agent system:
+   - Content Curator: Scrapes and organizes official documentation and guides
+   - Assessment Engine: Generates adaptive questions based on user performance
+   - Learning Coach: Tracks progress and recommends study plans
+- Coverage for IT certifications, language proficiency, and licensing exams
+- Extensible: Add new certifications via configuration
+- Secure authentication (Google OAuth 2.0), encrypted sessions, HTTPS
+- Performance analytics dashboard
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
+The system is organized into three main agents:
+- Content Curator: Scrapes and summarizes official documentation using Firecrawl and Google Search API.
+- Assessment Engine: Generates exam questions, adapts difficulty, and aligns with certification blueprints.
+- Learning Coach: Tracks user performance, analyzes results, and recommends study plans.
 
-### System Architecture Diagram (Generated via Mermaid MCP)
-
-```mermaid
-flowchart TB
-   %% User Interaction Layer
-   U[👤 User] --> API[API Gateway]
-   API --> Auth[Authentication Service]
-    
-   %% Agent Orchestration Layer
-   Auth --> AO[Agent Orchestrator]
-   AO --> CCA[Content Curator Agent]
-   AO --> AEA[Assessment Engine Agent] 
-   AO --> LCA[Learning Coach Agent]
-    
-   %% A2A Communication Layer
-   CCA -.->|A2A Messages| AEA
-   CCA -.->|A2A Messages| LCA
-   AEA -.->|A2A Messages| LCA
-   LCA -.->|A2A Messages| CCA
-   AEA -.->|A2A Messages| CCA
-    
-   %% Data Layer
-   CCA --> DB[(MongoDB)]
-   AEA --> DB
-   LCA --> DB
-    
-   %% External Services
-   CCA --> FC[Firecrawl\nWeb Scraping]
-   CCA --> GS[Google Search\nAPI]
-   AEA --> GEM[GEMINI\nLLM]
-   LCA --> GEM
-    
-   %% Content Sources
-   FC --> WEB[Official Docs\nWebsites]
-   GS --> SEARCH[Search Results\n& Tutorials]
-    
-   %% Styling
-   classDef userClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-   classDef agentClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-   classDef serviceClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
-   classDef dataClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    
-   class U userClass
-   class CCA,AEA,LCA,AO agentClass
-   class API,Auth,FC,GS,GEM serviceClass
-   class DB dataClass
-```
-
-**Key Updates:**
-- Added `mermaid-mcp` server integration for live architecture diagram generation.
-- Agents now communicate via A2A (Agent-to-Agent) messaging for dynamic collaboration.
-- Content Curator Agent uses Firecrawl for official documentation scraping and Google Search API for supplementary content.
-- All agents interact with MongoDB for persistent storage and memory.
-
-### Data Flow
-
-```
-1. USER LOGIN
-   User → Streamlit → Google OAuth → MongoDB (users, sessions)
-
-2. CERT SELECTION
-   User → Streamlit → MongoDB (certifications) → Display options
-
-3. EXAM GENERATION
-   User Request → Orchestrator → Assessment Engine Agent
-                                     ↓
-                                 Gemini API (generate questions)
-                                     ↓
-                                 MongoDB (store exam)
-                                     ↓
-                                 Streamlit (display)
-
-4. ANSWER SUBMISSION
-   User Answers → Orchestrator → Learning Coach Agent
-                                     ↓
-                                 Gemini API (analyze performance)
-                                     ↓
-                                 MongoDB (store results + memory)
-                                     ↓
-                                 Streamlit (show results + coaching)
-```
+Agents communicate via an orchestrator and store all data in MongoDB. The platform supports A2A (agent-to-agent) messaging for dynamic collaboration. All diagrams are generated using Mermaid MCP for clarity and reproducibility.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-### **Backend**
-- **Python 3.14+**: Core language
-- **Streamlit**: Web framework
-- **Google ADK**: Agent framework
-- **Google Gemini API**: LLM and embeddings
-- **PyMongo**: MongoDB driver
-- **Asyncio**: Async operations
-
-### **Database**
-- **MongoDB Atlas**: NoSQL database
-- **GridFS**: Media file storage (images, audio)
-- **Vector Embeddings**: Semantic search
-
-### **AI/ML**
-- **Google Gemini API**: Configurable models (gemini-pro, gemini-flash, etc.)
-- **Text Embeddings**: text-embedding-004/005 for semantic search
-- **Structured Logging**: Observability
-
-### **Authentication**
-- **Google OAuth 2.0**: User authentication
-- **Session Management**: MongoDB-backed sessions
-
-### **Monitoring**
-- **Structlog**: JSON logging
-- **Plotly**: Visualizations
-- **Textstat**: Quality metrics
+- Python 3.14+
+- Streamlit (web UI)
+- Google ADK (agent framework)
+- Google Gemini API (LLM, embeddings)
+- PyMongo (MongoDB driver)
+- Asyncio (async operations)
+- MongoDB Atlas (NoSQL database)
+- GridFS (media storage)
+- Firecrawl (web scraping)
+- Google Search API (content retrieval)
+- Structlog (logging)
+- Plotly (visualizations)
+- Textstat (quality metrics)
 
 ---
 
@@ -380,15 +245,16 @@ python initialize_system.py
 
 ### Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `GEMINI_API_KEY` | Google Gemini API key | ✅ |
-| `MONGO_URI` | MongoDB connection string | ✅ |
-| `GOOGLE_CLIENT_ID` | OAuth client ID | ✅ |
-| `GOOGLE_CLIENT_SECRET` | OAuth client secret | ✅ |
-| `GOOGLE_REDIRECT_URI` | OAuth redirect URI | ✅ |
-| `APP_ENV` | Environment (dev/prod) | ❌ |
-| `DEBUG` | Debug mode (true/false) | ❌ |
+| Variable              | Description                                 | Required |
+|-----------------------|---------------------------------------------|----------|
+| GEMINI_API_KEY        | Google Gemini API key                       | Yes      |
+| MONGO_URI             | MongoDB connection string                   | Yes      |
+| GOOGLE_CLIENT_ID      | OAuth client ID                             | Yes      |
+| GOOGLE_CLIENT_SECRET  | OAuth client secret                         | Yes      |
+| GOOGLE_REDIRECT_URI   | OAuth redirect URI                          | Yes      |
+| FIRECRAWL_API_KEY     | Firecrawl web scraping API key              | Yes      |
+| APP_ENV               | Environment (development/production)        | No       |
+| DEBUG                 | Debug mode (true/false)                     | No       |
 
 ---
 
