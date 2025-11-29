@@ -18,7 +18,9 @@ from bs4 import BeautifulSoup
 import json
 import asyncio
 
-# Firecrawl import for enhanced web scraping
+
+# Firecrawl import for enhanced web scraping (optional)
+FIRECRAWL_API_KEY = os.getenv("FIRECRAWL_API_KEY")
 try:
     from firecrawl import Firecrawl
     FIRECRAWL_AVAILABLE = True
@@ -53,10 +55,12 @@ def check_environment():
 
     print("✅ All required environment variables are set")
 
-    # Check Firecrawl availability
-    if FIRECRAWL_AVAILABLE and os.getenv("FIRECRAWL_API_KEY"):
-        print("✅ Firecrawl available for enhanced web scraping")
-    elif FIRECRAWL_AVAILABLE and not os.getenv("FIRECRAWL_API_KEY"):
+
+    # Firecrawl tool selection logic
+    if FIRECRAWL_AVAILABLE and FIRECRAWL_API_KEY:
+        print("✅ Firecrawl available for enhanced web scraping (API key detected)")
+        print("You can use Firecrawl-powered scraping by setting USE_FIRECRAWL=True in your code.")
+    elif FIRECRAWL_AVAILABLE and not FIRECRAWL_API_KEY:
         print("⚠️  Firecrawl installed but API key missing - using BeautifulSoup fallback")
     else:
         print("⚠️  Firecrawl not available - using BeautifulSoup fallback")
@@ -212,11 +216,13 @@ class ContentScraper:
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
         })
 
-        # Initialize Firecrawl if available
+
+        # Initialize Firecrawl if available and selected
         self.firecrawl_app = None
-        if FIRECRAWL_AVAILABLE and os.getenv("FIRECRAWL_API_KEY"):
+        self.use_firecrawl = FIRECRAWL_AVAILABLE and FIRECRAWL_API_KEY and os.getenv("USE_FIRECRAWL", "false").lower() == "true"
+        if self.use_firecrawl:
             try:
-                self.firecrawl_app = Firecrawl(api_key=os.getenv("FIRECRAWL_API_KEY"))
+                self.firecrawl_app = Firecrawl(api_key=FIRECRAWL_API_KEY)
                 print("🔥 Firecrawl initialized for enhanced scraping")
             except Exception as e:
                 print(f"⚠️  Failed to initialize Firecrawl: {e}")
