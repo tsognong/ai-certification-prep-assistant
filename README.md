@@ -83,7 +83,6 @@ Agents communicate via an orchestrator and store all data in MongoDB. The platfo
 - PyMongo (MongoDB driver)
 - Asyncio (async operations)
 - MongoDB Atlas (NoSQL database)
-- GridFS (media storage)
 - Firecrawl (web scraping)
 - Google Search API (content retrieval)
 - Structlog (logging)
