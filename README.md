@@ -58,7 +58,7 @@ flowchart TB
    Assessment --> DB
    Coach --> DB
    Curator --> Firecrawl[Firecrawl Web Scraping]
-   Curator --> GoogleSearch[Google Search API]
+   Curator --> GoogleSearch[Google Search]
    Assessment --> Gemini[Gemini LLM]
    Coach --> Gemini
    Firecrawl --> Docs[Official Docs]
